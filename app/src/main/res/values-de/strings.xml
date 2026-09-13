@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CurrencyGuard AI</string>
+    <string name="app_tagline">KI-Banknoten-Echtheitsprüfung</string>
+
+    <string name="general_disclaimer">⚠️ CurrencyGuard AI liefert eine automatisierte visuelle Screening-Bewertung. Es ersetzt keine offizielle Bankprüfung.</string>
+    <string name="educational_purpose_notice">Nur für Bildungs- und Forschungszwecke.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Start</string>
+    <string name="nav_scan">Scannen</string>
+    <string name="nav_history">Verlauf</string>
+    <string name="nav_learn">Lernen</string>
+    <string name="nav_profile">Optionen</string>
+    <string name="nav_settings">Optionen</string>
+
+    <!-- Statuses -->
+    <string name="status_likely_genuine">Wahrscheinlich echt</string>
+    <string name="status_suspicious">Verdächtig</string>
+    <string name="status_likely_fake">Wahrscheinlich gefälscht</string>
+    <string name="status_unable_to_verify">Prüfung nicht möglich</string>
+
+    <!-- Home Dashboard -->
+    <string name="total_scans">Gesamte Scans</string>
+    <string name="avg_confidence">Durchschn. Vertrauen</string>
+    <string name="scan_currency_btn">📷 Banknote scannen</string>
+    <string name="upload_image_btn">📁 Aus Galerie hochladen</string>
+    <string name="recent_scans_title">Letzte Prüfungen</string>
+    <string name="view_all">Alle anzeigen</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="section_appearance">Erscheinungsbild &amp; Design</string>
+    <string name="theme_light">☀️ Hell</string>
+    <string name="theme_dark">🌙 Dunkel</string>
+    <string name="theme_system">⚙️ Systemstandard</string>
+    <string name="section_language">Sprache / Language</string>
+    <string name="select_language">Sprache ändern</string>
+    <string name="language_changed_toast">Sprache erfolgreich geändert.</string>
+    <string name="theme_changed_toast">Design erfolgreich geändert.</string>
+
+    <!-- Privacy Policy -->
+    <string name="privacy_title">Datenschutz &amp; Sicherheit</string>
+    <string name="privacy_badge_title">100% On-Device Garantie</string>
+    <string name="privacy_badge_desc">Alle Analysen erfolgen lokal auf Ihrem Gerät. Fotos werden niemals an Server gesendet.</string>
+    <string name="privacy_view_policy_btn">Datenschutzerklärung lesen</string>
+    <string name="privacy_policy_heading">Datenschutzerklärung</string>
+</resources>

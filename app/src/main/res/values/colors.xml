@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand & Primary Colors -->
+    <color name="primary">#1976D2</color>
+    <color name="primary_dark">#0D47A1</color>
+    <color name="primary_light">#E3F2FD</color>
+    <color name="primary_container">#D0E4FF</color>
+    <color name="on_primary_container">#001D36</color>
+
+    <!-- Status Colors -->
+    <color name="status_genuine">#00C853</color>
+    <color name="status_genuine_container">#E8F5E9</color>
+    <color name="status_suspicious">#FFB300</color>
+    <color name="status_suspicious_container">#FFF8E1</color>
+    <color name="status_fake">#F44336</color>
+    <color name="status_fake_container">#FFEBEE</color>
+    <color name="status_unverified">#78909C</color>
+    <color name="status_unverified_container">#ECEFF1</color>
+
+    <!-- Heatmap Visualization Colors -->
+    <color name="heatmap_green">#4CAF50</color>
+    <color name="heatmap_yellow">#FFC107</color>
+    <color name="heatmap_red">#F44336</color>
+
+    <!-- Neutrals & Surfaces (Material 3) -->
+    <color name="background">#FAFAFA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F5F5F5</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="border_light">#E0E0E0</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_tertiary">#9E9E9E</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Accent & Highlights -->
+    <color name="accent_blue">#0288D1</color>
+    <color name="accent_purple">#7E57C2</color>
+    <color name="scanner_overlay">#80000000</color>
+    <color name="scanner_reticle">#00E5FF</color>
+
+    <!-- Standard Basics -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+</resources>

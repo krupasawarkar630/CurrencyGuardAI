@@ -1,0 +1,26 @@
+*.iml
+.gradle
+/local.properties
+local.properties
+
+# IDE
+/.idea/
+.DS_Store
+
+# Build outputs
+/build
+/app/build
+/captures
+
+# Native
+.externalNativeBuild
+.cxx
+
+# Firebase config (contains API keys - do NOT push to public repos)
+app/google-services.json
+
+# Generated files
+*.apk
+*.aab
+*.hprof
+*.log

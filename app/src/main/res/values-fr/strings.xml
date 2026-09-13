@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CurrencyGuard AI</string>
+    <string name="app_tagline">Détection d\'Authenticité des Billets par IA</string>
+
+    <string name="general_disclaimer">⚠️ CurrencyGuard AI fournit une évaluation visuelle automatisée. Elle ne remplace pas une vérification bancaire officielle.</string>
+    <string name="educational_purpose_notice">À des fins éducatives et de recherche uniquement.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_scan">Scanner</string>
+    <string name="nav_history">Historique</string>
+    <string name="nav_learn">Apprendre</string>
+    <string name="nav_profile">Paramètres</string>
+    <string name="nav_settings">Paramètres</string>
+
+    <!-- Statuses -->
+    <string name="status_likely_genuine">Billet Probablement Authentique</string>
+    <string name="status_suspicious">Billet Suspect</string>
+    <string name="status_likely_fake">Billet Probablement Faux</string>
+    <string name="status_unable_to_verify">Impossible de vérifier</string>
+
+    <!-- Home Dashboard -->
+    <string name="total_scans">Total des Scans</string>
+    <string name="avg_confidence">Confiance Moyenne</string>
+    <string name="scan_currency_btn">📷 Scanner un Billet</string>
+    <string name="upload_image_btn">📁 Importer de la Galerie</string>
+    <string name="recent_scans_title">Analyses Récentes</string>
+    <string name="view_all">Tout Afficher</string>
+
+    <!-- Camera / Scanner -->
+    <string name="scanner_title">Aligner le Billet</string>
+    <string name="scanner_subtitle">Gardez le billet bien à plat dans le cadre</string>
+    <string name="flip_side">Capturer l\'Autre Côté</string>
+    <string name="front_side">Face Avant</string>
+    <string name="back_side">Face Arrière</string>
+    <string name="capture_btn">Capturer</string>
+
+    <!-- Live Guide Hints -->
+    <string name="guide_too_close">↔️ Éloignez légèrement la caméra</string>
+    <string name="guide_too_far">🔍 Rapprochez la caméra</string>
+    <string name="guide_glare">💡 Réduisez les reflets ou inclinez le billet</string>
+    <string name="guide_flat">📐 Maintenez le billet bien à plat</string>
+    <string name="guide_perfect">✨ Cadrage idéal ! Appuyez pour capturer</string>
+
+    <!-- AI Doubt Meter -->
+    <string name="doubt_meter_title">Doute-Mètre IA — Analyse d\'Incertitude</string>
+    <string name="doubt_meter_subtitle">Pourquoi la confiance de l\'IA est réduite</string>
+
+    <!-- Confidence Timeline -->
+    <string name="timeline_title">Chronologie de Confiance</string>
+    <string name="timeline_subtitle">Cohérence sur plusieurs scans d\'un même billet</string>
+    <string name="consistency_score">Score de Cohérence IA</string>
+    <string name="volatility_label">Volatilité</string>
+
+    <!-- Result -->
+    <string name="result_title">Évaluation de Sécurité</string>
+    <string name="confidence_score_label">Confiance Globale de l\'IA</string>
+    <string name="breakdown_title">Comment l\'IA a Décidé</string>
+    <string name="view_heatmap">Basculer la Carte Thermique d\'Attention IA</string>
+    <string name="export_pdf_btn">Exporter le Passeport PDF</string>
+    <string name="ask_ai_btn">Demander à CurrencyGuard AI</string>
+    <string name="retake_btn">Scanner un Autre Billet</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Paramètres &amp; Préférences</string>
+    <string name="section_appearance">Apparence &amp; Thème</string>
+    <string name="theme_light">☀️ Clair</string>
+    <string name="theme_dark">🌙 Sombre</string>
+    <string name="theme_system">⚙️ Défaut du Système</string>
+    <string name="section_language">Langue / Language</string>
+    <string name="select_language">Changer de Langue</string>
+    <string name="language_changed_toast">Langue modifiée avec succès.</string>
+    <string name="theme_changed_toast">Thème modifié avec succès.</string>
+
+    <!-- Privacy Policy -->
+    <string name="privacy_title">Confidentialité &amp; Sécurité</string>
+    <string name="privacy_badge_title">Garantie 100% sur l\'Appareil</string>
+    <string name="privacy_badge_desc">Les analyses s\'exécutent localement. Les images ne sont jamais téléchargées sur des serveurs externes.</string>
+    <string name="privacy_view_policy_btn">Lire la Politique Complète</string>
+    <string name="privacy_policy_heading">Politique de Confidentialité</string>
+</resources>

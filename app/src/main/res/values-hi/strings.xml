@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CurrencyGuard AI</string>
+    <string name="app_tagline">एआई-सहायता प्राप्त मुद्रा प्रामाणिकता जांच</string>
+
+    <string name="general_disclaimer">⚠️ CurrencyGuard AI एक स्वचालित दृश्य स्क्रीनिंग मूल्यांकन प्रदान करता है। यह आधिकारिक बैंक सत्यापन का विकल्प नहीं है।</string>
+    <string name="educational_purpose_notice">केवल शैक्षिक और अनुसंधान उद्देश्यों के लिए।</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">होम</string>
+    <string name="nav_scan">स्कैन</string>
+    <string name="nav_history">इतिहास</string>
+    <string name="nav_learn">सीखें</string>
+    <string name="nav_profile">सेटिंग्स</string>
+    <string name="nav_settings">सेटिंग्स</string>
+
+    <!-- Statuses -->
+    <string name="status_likely_genuine">संभवतः असली नोट</string>
+    <string name="status_suspicious">संदिग्ध नोट</string>
+    <string name="status_likely_fake">संभवतः नकली नोट</string>
+    <string name="status_unable_to_verify">सत्यापन में असमर्थ</string>
+
+    <!-- Home Dashboard -->
+    <string name="total_scans">कुल स्कैन</string>
+    <string name="avg_confidence">औसत विश्वसनीयता</string>
+    <string name="scan_currency_btn">📷 नोट स्कैन करें</string>
+    <string name="upload_image_btn">📁 गैलरी से चुनें</string>
+    <string name="recent_scans_title">हालिया स्कैन</string>
+    <string name="view_all">सभी देखें</string>
+
+    <!-- Camera / Scanner -->
+    <string name="scanner_title">नोट को फ्रेम में रखें</string>
+    <string name="scanner_subtitle">नोट को सीधा और समतल रखें</string>
+    <string name="flip_side">दूसरी तरफ स्कैन करें</string>
+    <string name="front_side">सामने का भाग</string>
+    <string name="back_side">पीछे का भाग</string>
+    <string name="capture_btn">फोटो खींचें</string>
+
+    <!-- Live Guide Hints -->
+    <string name="guide_too_close">↔️ कैमरा थोड़ा पीछे ले जाएं</string>
+    <string name="guide_too_far">🔍 कैमरा थोड़ा पास लाएं</string>
+    <string name="guide_glare">💡 चमक कम करें या नोट को थोड़ा झुकाएं</string>
+    <string name="guide_flat">📐 नोट को समतल और सीधा रखें</string>
+    <string name="guide_perfect">✨ बिल्कुल सही! फोटो खींचें</string>
+
+    <!-- AI Doubt Meter -->
+    <string name="doubt_meter_title">एआई संदेह मीटर — अनिश्चितता विश्लेषण</string>
+    <string name="doubt_meter_subtitle">एआई विश्वसनीयता कम होने के कारण</string>
+
+    <!-- Confidence Timeline -->
+    <string name="timeline_title">विश्वसनीयता समयरेखा चार्ट</string>
+    <string name="timeline_subtitle">एक ही नोट के विभिन्न स्कैनों में स्थिरता</string>
+    <string name="consistency_score">एआई स्थिरता स्कोर</string>
+    <string name="volatility_label">अस्थिरता</string>
+
+    <!-- Result -->
+    <string name="result_title">जांच परिणाम</string>
+    <string name="confidence_score_label">कुल एआई विश्वसनीयता</string>
+    <string name="breakdown_title">एआई का निर्णय आधार</string>
+    <string name="view_heatmap">एआई हीटमैप देखें</string>
+    <string name="export_pdf_btn">पीडीएफ रिपोर्ट डाउनलोड करें</string>
+    <string name="ask_ai_btn">CurrencyGuard एआई से पूछें</string>
+    <string name="retake_btn">दूसरा नोट स्कैन करें</string>
+
+    <!-- Settings -->
+    <string name="settings_title">सेटिंग्स और प्राथमिकताएं</string>
+    <string name="section_appearance">थीम और स्वरूप</string>
+    <string name="theme_light">☀️ लाइट थीम</string>
+    <string name="theme_dark">🌙 डार्क थीम</string>
+    <string name="theme_system">⚙️ सिस्टम डिफ़ॉल्ट</string>
+    <string name="section_language">भाषा चुनें (Language)</string>
+    <string name="select_language">भाषा बदलें</string>
+    <string name="language_changed_toast">भाषा सफलतापूर्वक बदली गई।</string>
+    <string name="theme_changed_toast">थीम सफलतापूर्वक बदली गई।</string>
+
+    <!-- Privacy Policy -->
+    <string name="privacy_title">गोपनीयता और डेटा सुरक्षा</string>
+    <string name="privacy_badge_title">100% डिवाइस पर ही प्रोसेसिंग गारंटी</string>
+    <string name="privacy_badge_desc">नोट के फोटो केवल आपके फोन पर प्रोसेस होते हैं। कोई भी इमेज सर्वर पर नहीं भेजी जाती।</string>
+    <string name="privacy_view_policy_btn">पूरी गोपनीयता नीति पढ़ें</string>
+    <string name="privacy_policy_heading">गोपनीयता नीति और सुरक्षा अवलोकन</string>
+</resources>

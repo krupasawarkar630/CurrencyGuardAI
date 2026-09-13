@@ -1,0 +1,4 @@
+Likely Genuine
+Suspicious
+Likely Fake
+Unable to Verify

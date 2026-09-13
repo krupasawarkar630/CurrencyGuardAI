@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CurrencyGuard AI</string>
+    <string name="app_tagline">فحص أصالة العملات بالذكاء الاصطناعي</string>
+
+    <string name="general_disclaimer">⚠️ يقدم CurrencyGuard AI تقييماً بصرياً آلياً. لا يعد بديلاً عن الفحص البنكي الرسمي.</string>
+    <string name="educational_purpose_notice">للأغراض التعليمية والبحثية فقط.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_scan">مسح</string>
+    <string name="nav_history">السجل</string>
+    <string name="nav_learn">تعلّم</string>
+    <string name="nav_profile">الإعدادات</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- Statuses -->
+    <string name="status_likely_genuine">عملة أصلية على الأرجح</string>
+    <string name="status_suspicious">عملة مشبوهة</string>
+    <string name="status_likely_fake">عملة مزيفة على الأرجح</string>
+    <string name="status_unable_to_verify">تعذر التحقق</string>
+
+    <!-- Home Dashboard -->
+    <string name="total_scans">إجمالي الفحوصات</string>
+    <string name="avg_confidence">متوسط الثقة</string>
+    <string name="scan_currency_btn">📷 مسح عملة نقدية</string>
+    <string name="upload_image_btn">📁 اختيار من المعرض</string>
+    <string name="recent_scans_title">الفحوصات الأخيرة</string>
+    <string name="view_all">عرض الكل</string>
+
+    <!-- Settings -->
+    <string name="settings_title">الإعدادات والتفضيلات</string>
+    <string name="section_appearance">المظهر والسمة</string>
+    <string name="theme_light">☀️ فاتح</string>
+    <string name="theme_dark">🌙 داكن</string>
+    <string name="theme_system">⚙️ افتراضي النظام</string>
+    <string name="section_language">تغيير اللغة (Language)</string>
+    <string name="select_language">اختر اللغة</string>
+    <string name="language_changed_toast">تم تحديث اللغة بنجاح.</string>
+    <string name="theme_changed_toast">تم تحديث السمة بنجاح.</string>
+
+    <!-- Privacy Policy -->
+    <string name="privacy_title">الخصوصية وأمان البيانات</string>
+    <string name="privacy_badge_title">ضمان المعالجة الكاملة على الجهاز 100%</string>
+    <string name="privacy_badge_desc">تتم جميع التحليلات محلياً على هاتفك. لا يتم إرسال أي صور إلى خوادم خارجية مطلقاً.</string>
+    <string name="privacy_view_policy_btn">قراءة سياسة الخصوصية كاملة</string>
+    <string name="privacy_policy_heading">سياسة الخصوصية والأمان</string>
+</resources>
