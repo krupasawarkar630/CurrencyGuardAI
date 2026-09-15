@@ -19,6 +19,7 @@ import com.example.currencyguard.model.ScanResult;
 import com.example.currencyguard.repository.ScanRepository;
 import com.example.currencyguard.utils.ImageUtils;
 import com.example.currencyguard.utils.PdfReportGenerator;
+import com.example.currencyguard.utils.ShareUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -26,9 +27,9 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Currency Passport View Activity.
- * Displays saved historical screening records with full metric breakdowns
- * and digital PDF export capabilities.
+ * Currency Verification & Audit Passport Record View Activity.
+ * Displays saved historical screening records with full metric breakdowns,
+ * risk scores, dual-sided status, re-scan actions, and PDF export.
  */
 public class HistoryDetailActivity extends AppCompatActivity {
 
@@ -37,9 +38,12 @@ public class HistoryDetailActivity extends AppCompatActivity {
     private ScanResult scanResult;
 
     private TextView tvPassportId;
+    private TextView tvPassportSidesBadge;
     private TextView tvPassportDate;
     private TextView tvPassportDenom;
+    private TextView tvPassportSerial;
     private TextView tvPassportStatus;
+    private TextView tvPassportRiskScore;
     private TextView tvPassportMetrics;
     private TextView tvPassportExplanation;
     private ImageView ivFront;
@@ -63,13 +67,31 @@ public class HistoryDetailActivity extends AppCompatActivity {
         findViewById(R.id.btn_export_passport_pdf).setOnClickListener(v -> exportPdf());
 
         tvPassportId = findViewById(R.id.tv_passport_id);
+        tvPassportSidesBadge = findViewById(R.id.tv_passport_sides_badge);
         tvPassportDate = findViewById(R.id.tv_passport_date);
         tvPassportDenom = findViewById(R.id.tv_passport_denom);
+        tvPassportSerial = findViewById(R.id.tv_passport_serial);
         tvPassportStatus = findViewById(R.id.tv_passport_status);
+        tvPassportRiskScore = findViewById(R.id.tv_passport_risk_score);
         tvPassportMetrics = findViewById(R.id.tv_passport_metrics);
         tvPassportExplanation = findViewById(R.id.tv_passport_explanation);
         ivFront = findViewById(R.id.iv_passport_front);
         ivBack = findViewById(R.id.iv_passport_back);
+
+        findViewById(R.id.btn_passport_rescan).setOnClickListener(v -> {
+            Intent intent = new Intent(HistoryDetailActivity.this, ScanActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        findViewById(R.id.btn_passport_share).setOnClickListener(v -> {
+            if (scanResult != null) {
+                String denom = scanResult.getDenomination() != null ? scanResult.getDenomination() : "Banknote";
+                String curr = scanResult.getCurrency() != null ? scanResult.getCurrency() : "INR";
+                String status = scanResult.getRiskLevel() != null ? scanResult.getRiskLevel() : "LOW_RISK";
+                ShareUtils.shareScreeningResult(HistoryDetailActivity.this, denom, curr, status, scanResult.getConfidence());
+            }
+        });
 
         loadRecord(scanId);
     }
@@ -90,50 +112,65 @@ public class HistoryDetailActivity extends AppCompatActivity {
     }
 
     private void bindRecordData() {
-        String passportId = "CG-" + (scanResult.getId() * 1000 + 1234);
-        tvPassportId.setText("Passport ID: " + passportId);
+        String verificationId = scanResult.getVerificationId();
+        if (verificationId == null || verificationId.isEmpty()) {
+            verificationId = "CG-" + (scanResult.getId() * 1000 + 1234);
+        }
+        tvPassportId.setText("Verification ID: " + verificationId);
 
-        String dateStr = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.US).format(new Date(scanResult.getTimestamp()));
+        String dateStr = new SimpleDateFormat("dd MMM yyyy • hh:mm a", Locale.US).format(new Date(scanResult.getTimestamp()));
         tvPassportDate.setText("Scan Date: " + dateStr);
 
         tvPassportDenom.setText(scanResult.getDenomination() + " (" + scanResult.getCurrency() + ")");
 
-        String status = scanResult.getStatus() != null ? scanResult.getStatus() : "LIKELY_GENUINE";
+        // Serial Number
+        String serial = scanResult.getSerialNumber();
+        if (serial != null && !serial.isEmpty() && !"Unclear".equalsIgnoreCase(serial)) {
+            tvPassportSerial.setText("Serial Number: " + serial);
+        } else {
+            tvPassportSerial.setText("Serial Number: Not Detected");
+        }
+
+        // Dual-Sided vs Single-Side Tag
+        boolean isDual = scanResult.isDualSided() || (scanResult.getBackImagePath() != null && !scanResult.getBackImagePath().isEmpty());
+        tvPassportSidesBadge.setText(isDual ? "Dual-Sided Verified" : "Single-Side Screening");
+
+        int risk = scanResult.getRiskScore() > 0 ? scanResult.getRiskScore() : (int) Math.max(5, Math.round(100.0 - scanResult.getConfidence()));
+        tvPassportRiskScore.setText("Risk: " + risk + "/100 • Conf: " + (int) scanResult.getConfidence() + "%");
+
+        String status = scanResult.getStatus() != null ? scanResult.getStatus() : "LOW_RISK";
         int color = Color.parseColor("#00C853");
-        String displayName = "VERDICT: REAL CURRENCY";
+        String displayName = "LOW RISK";
 
         if (status.contains("NOT_A_CURRENCY") || status.contains("NOT_CURRENCY")) {
             color = Color.parseColor("#D32F2F");
-            displayName = "VERDICT: NOT A CURRENCY NOTE";
-        } else if (status.contains("SUSPICIOUS")) {
+            displayName = "NOT A CURRENCY NOTE";
+            tvPassportRiskScore.setText("Screening Halted");
+        } else if (status.contains("SUSPICIOUS") || (risk >= 30 && risk < 70)) {
             color = Color.parseColor("#FFB300");
-            displayName = "VERDICT: SUSPICIOUS NOTE";
-        } else if (status.contains("FAKE")) {
+            displayName = "SUSPICIOUS";
+        } else if (status.contains("HIGH_RISK") || status.contains("FAKE") || risk >= 70) {
             color = Color.parseColor("#F44336");
-            displayName = "VERDICT: FAKE CURRENCY";
-        } else if (status.contains("UNABLE")) {
-            color = Color.parseColor("#78909C");
-            displayName = "VERDICT: UNABLE TO VERIFY";
+            displayName = "HIGH RISK";
+        } else {
+            color = Color.parseColor("#00C853");
+            displayName = "LOW RISK";
         }
 
-        if (status.contains("NOT_A_CURRENCY") || status.contains("NOT_CURRENCY")) {
-            tvPassportStatus.setText(displayName);
-        } else {
-            tvPassportStatus.setText(displayName + " (" + (int) scanResult.getConfidence() + "%)");
-        }
+        tvPassportStatus.setText(displayName);
         tvPassportStatus.setTextColor(color);
 
         // Metrics breakdown
         StringBuilder metrics = new StringBuilder();
-        metrics.append("• Visual Model Score:   ").append((int) scanResult.getVisualScore()).append("%\n");
-        metrics.append("• Security Feature Regions: ").append((int) scanResult.getSecurityScore()).append("%\n");
-        metrics.append("• OCR Consistency:      ").append((int) scanResult.getOcrScore()).append("%\n");
-        metrics.append("• Geometry Alignment:   ").append((int) scanResult.getGeometryScore()).append("%\n");
-        metrics.append("• Input Image Quality:  ").append((int) scanResult.getImageQuality()).append("%\n");
-        metrics.append("• Visual Anomaly Score: ").append((int) scanResult.getAnomalyScore()).append(" / 100");
+        metrics.append("• Visual Similarity Score:   ").append((int) scanResult.getVisualScore()).append("%\n");
+        metrics.append("• Security Feature Regions:  ").append((int) scanResult.getSecurityScore()).append("%\n");
+        metrics.append("• OCR Text Consistency:     ").append((int) scanResult.getOcrScore()).append("%\n");
+        metrics.append("• Geometry & Proportions:    ").append((int) scanResult.getGeometryScore()).append("%\n");
+        metrics.append("• Input Image Quality:       ").append((int) scanResult.getImageQuality()).append("%\n");
+        metrics.append("• Visual Anomaly Index:      ").append((int) scanResult.getAnomalyScore()).append(" / 100");
         tvPassportMetrics.setText(metrics.toString());
 
-        tvPassportExplanation.setText(scanResult.getAiExplanation() != null ? scanResult.getAiExplanation() : "All primary anti-counterfeit characteristics verified.");
+        tvPassportExplanation.setText(scanResult.getAiExplanation() != null ? scanResult.getAiExplanation() : "All primary security characteristics consistent with currency pattern.");
 
         // Images
         if (scanResult.getFrontImagePath() != null) {
@@ -150,6 +187,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
         if (scanResult == null) return;
 
         ConfidenceEngine engine = new ConfidenceEngine();
+        boolean isDual = scanResult.isDualSided() || (scanResult.getBackImagePath() != null && !scanResult.getBackImagePath().isEmpty());
         AnalysisResult analysisResult = engine.computeFinalResult(
                 scanResult.getDenomination(),
                 scanResult.getCurrency(),
@@ -159,23 +197,27 @@ public class HistoryDetailActivity extends AppCompatActivity {
                 scanResult.getOcrScore(),
                 scanResult.getGeometryScore(),
                 scanResult.getAnomalyScore(),
-                scanResult.getDenomination(),
-                scanResult.getBackImagePath() != null
+                scanResult.getSerialNumber(),
+                isDual
         );
         analysisResult.setAiExplanation(scanResult.getAiExplanation());
+        if (scanResult.getVerificationId() != null && !scanResult.getVerificationId().isEmpty()) {
+            analysisResult.setVerificationId(scanResult.getVerificationId());
+        }
 
-        String passportId = "CG-" + (scanResult.getId() * 1000 + 1234);
-        File pdf = PdfReportGenerator.generateReport(this, analysisResult, passportId);
+        File pdf = PdfReportGenerator.generateReport(this, analysisResult, analysisResult.getVerificationId());
         if (pdf != null && pdf.exists()) {
             try {
                 Uri pdfUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", pdf);
                 Intent viewIntent = new Intent(Intent.ACTION_VIEW);
                 viewIntent.setDataAndType(pdfUri, "application/pdf");
                 viewIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivity(Intent.createChooser(viewIntent, "Open Passport Report"));
+                startActivity(Intent.createChooser(viewIntent, "Open Currency Verification Report"));
             } catch (Exception e) {
                 Toast.makeText(this, "PDF saved to " + pdf.getAbsolutePath(), Toast.LENGTH_LONG).show();
             }
+        } else {
+            Toast.makeText(this, "Failed to generate PDF.", Toast.LENGTH_SHORT).show();
         }
     }
 }

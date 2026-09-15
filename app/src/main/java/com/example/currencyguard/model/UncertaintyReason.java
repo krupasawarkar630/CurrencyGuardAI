@@ -39,6 +39,16 @@ public enum UncertaintyReason {
         "Single Side Capture Only",
         "Only one face of the note was analyzed. Both front and back are recommended for full verification.",
         "Scan the reverse side for complete two-sided verification."
+    ),
+    DIGITAL_SCREEN_RECAPTURE(
+        "Screen / Laptop Recapture Detected",
+        "Image was captured from a laptop or computer monitor. A digital screen image lacks physical currency substrate and cannot be authenticated as real money.",
+        "Scan the physical banknote in your hand under natural ambient lighting."
+    ),
+    REPRODUCTION_OR_TOY_NOTE(
+        "Non-Circulating Toy / Souvenir Note",
+        "Markings ('Manoranjan / Coupon / Points / Children Bank') indicate a toy or fake reproduction note, not legal tender.",
+        "Only official legal tender currency issued by the Reserve Bank of India can be verified."
     );
 
     private final String title;

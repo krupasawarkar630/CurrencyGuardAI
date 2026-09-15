@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home Dashboard" />
+
+        <item
+            android:id="@+id/drawer_scan"
+            android:icon="@drawable/ic_scan"
+            android:title="Banknote Scanner" />
+
+        <item
+            android:id="@+id/drawer_wallet"
+            android:icon="@drawable/ic_history"
+            android:title="Smart Note Wallet" />
+
+        <item
+            android:id="@+id/drawer_ai_copilot"
+            android:icon="@drawable/ic_ai_copilot"
+            android:title="Gemini AI Copilot" />
+
+        <item
+            android:id="@+id/drawer_whatsapp_bot"
+            android:icon="@drawable/ic_whatsapp"
+            android:title="WhatsApp Screening Bot" />
+
+        <item
+            android:id="@+id/drawer_converter"
+            android:icon="@drawable/ic_chart"
+            android:title="Live Currency Converter" />
+
+        <item
+            android:id="@+id/drawer_settings"
+            android:icon="@drawable/ic_profile"
+            android:title="Settings &amp; Diagnostics" />
+    </group>
+
+    <item android:title="System &amp; Legal">
+        <menu>
+            <item
+                android:id="@+id/drawer_share"
+                android:icon="@drawable/ic_security"
+                android:title="Share CurrencyGuard AI" />
+            <item
+                android:id="@+id/drawer_about"
+                android:icon="@drawable/ic_doubt"
+                android:title="Forensic Compliance &amp; Policy" />
+        </menu>
+    </item>
+
+</menu>

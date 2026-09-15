@@ -36,6 +36,8 @@ import java.io.File;
 public class ScanActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST_CODE = 101;
+    public static final String EXTRA_FRONT_PATH = "extra_front_path";
+    public static final String EXTRA_SHOW_GUIDE = "extra_show_guide";
 
     private PreviewView previewView;
     private TextView tvSmartGuide;
@@ -87,6 +89,19 @@ public class ScanActivity extends AppCompatActivity {
         isVoiceGuideEnabled = AiVoiceManager.isVoiceGuidanceEnabled(this);
         updateVoiceGuideButton();
 
+        // Check if opened directly to scan the back side
+        String passedFrontPath = getIntent().getStringExtra(EXTRA_FRONT_PATH);
+        if (passedFrontPath != null && !passedFrontPath.isEmpty()) {
+            frontImagePath = passedFrontPath;
+            isDualSideMode = true;
+            isFrontSide = false;
+            updateSideUI();
+            Toast.makeText(this, "Scanning back side. Align banknote within guide.", Toast.LENGTH_LONG).show();
+            if (isVoiceGuideEnabled && voiceManager != null) {
+                voiceManager.speakText("Front captured. Now align the back side of the banknote.");
+            }
+        }
+
         findViewById(R.id.btn_close_scan).setOnClickListener(v -> finish());
 
         btnFlash.setOnClickListener(v -> {
@@ -134,8 +149,8 @@ public class ScanActivity extends AppCompatActivity {
             tvSideBadge.setText("Front Side");
             btnFlipSide.setText("Scan Dual Side");
         } else {
-            tvSideBadge.setText("Back Side");
-            btnFlipSide.setText("Front Side");
+            tvSideBadge.setText("Back Side (Dual-Side Verification)");
+            btnFlipSide.setText("Back Side Mode");
         }
     }
 

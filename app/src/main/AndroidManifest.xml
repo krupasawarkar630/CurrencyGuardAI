@@ -22,9 +22,9 @@
         android:name=".CurrencyGuardApp"
         android:allowBackup="true"
         android:largeHeap="true"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_app_logo"
         android:label= "@string/app_name"
-        android:roundIcon="@drawable/ic_launcher_foreground"
+        android:roundIcon="@drawable/ic_app_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.CurrencyGuard">
 
@@ -83,6 +83,12 @@
         <!-- Multi-Country Currency Converter Activity -->
         <activity
             android:name=".activity.CurrencyConverterActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- WhatsApp Verification Bot Live Demo Simulator -->
+        <activity
+            android:name=".whatsapp.WhatsAppBotDemoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

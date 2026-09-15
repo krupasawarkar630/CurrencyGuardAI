@@ -73,4 +73,11 @@ public interface ScanResultDao {
 
     @Query("SELECT COUNT(*) FROM scan_results WHERE status != 'LIKELY_GENUINE'")
     int getSuspiciousOrFakeCountSync();
+
+    // Smart Wallet Queries
+    @Query("SELECT * FROM scan_results WHERE denomination LIKE '%' || :query || '%' OR serialNumber LIKE '%' || :query || '%' OR verificationId LIKE '%' || :query || '%' ORDER BY timestamp DESC")
+    LiveData<List<ScanResult>> searchWallet(String query);
+
+    @Query("SELECT * FROM scan_results WHERE riskLevel = :riskLevel ORDER BY timestamp DESC")
+    LiveData<List<ScanResult>> getScansByRiskLevel(String riskLevel);
 }

@@ -65,9 +65,16 @@ public class OCRAnalyzer {
             String cleanExpected = expectedDenom.replace("₹", "").trim();
 
             boolean matchesExpected = fullText.contains(cleanExpected);
-            boolean hasRbiKeyword = fullText.toUpperCase().contains("RESERVE") ||
-                                    fullText.toUpperCase().contains("BANK") ||
-                                    fullText.toUpperCase().contains("INDIA");
+            String upper = fullText.toUpperCase();
+            boolean hasToyKeyword = upper.contains("MANORANJAN") || upper.contains("MANORAMJAN") ||
+                                    upper.contains("मनोरंजन") || upper.contains("COUPON") ||
+                                    upper.contains("POINTS") || upper.contains("कूपन") ||
+                                    upper.contains("FULL OF FUN") || upper.contains("CHILDREN") ||
+                                    upper.contains("TOY") || upper.contains("CINEMA") ||
+                                    upper.contains("CHURAN");
+
+            boolean hasRbiKeyword = (upper.contains("RESERVE BANK") || upper.contains("रिज़र्व") ||
+                                     upper.contains("रिजर्व") || (upper.contains("RESERVE") && upper.contains("INDIA"))) && !hasToyKeyword;
 
             double score = 75.0;
             if (matchesExpected) {
@@ -75,6 +82,9 @@ public class OCRAnalyzer {
             }
             if (hasRbiKeyword) {
                 score += 8.0;
+            }
+            if (hasToyKeyword) {
+                score -= 45.0; // Heavy penalty for non-circulating toy note markings
             }
 
             // Extract partial serial number candidate (e.g. "8A 123456" pattern)

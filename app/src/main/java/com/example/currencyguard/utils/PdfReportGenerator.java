@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 
 import com.example.currencyguard.model.AnalysisResult;
-import com.example.currencyguard.model.ScanResult;
 import com.example.currencyguard.model.UncertaintyReason;
 
 import java.io.File;
@@ -18,8 +17,9 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * FEATURE 16: AI REPORT / PDF EXPORT
- * Generates an authenticity screening report PDF using the native Android PdfDocument API.
+ * CurrencyGuard AI — Professional PDF Audit Passport & Screening Report Generator.
+ * Creates an A4 digital verification passport documenting banknote risk assessment,
+ * security feature audit, component contributions, and explainability notes.
  */
 public class PdfReportGenerator {
 
@@ -30,115 +30,134 @@ public class PdfReportGenerator {
         Canvas canvas = page.getCanvas();
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        int y = 40;
+        int y = 35;
 
-        // 1. Header Banner
-        paint.setColor(Color.parseColor("#1976D2"));
+        // 1. Professional Header Banner
+        paint.setColor(Color.parseColor("#0F172A")); // Deep Trust Slate Navy
         paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(30, y, 565, y + 60, paint);
+        canvas.drawRect(30, y, 565, y + 65, paint);
 
         paint.setColor(Color.WHITE);
-        paint.setTextSize(18f);
+        paint.setTextSize(16f);
         paint.setFakeBoldText(true);
-        canvas.drawText("CurrencyGuard AI — Authenticity Report", 45, y + 36, paint);
+        canvas.drawText("CurrencyGuard AI — Verification & Risk Report", 45, y + 30, paint);
+
+        paint.setColor(Color.parseColor("#94A3B8"));
+        paint.setTextSize(9.5f);
+        paint.setFakeBoldText(false);
+        canvas.drawText("Algorithmic Banknote Screening, Explainability & Audit Passport", 45, y + 48, paint);
 
         y += 85;
 
-        // 2. Metadata
-        String reportId = (customId != null && !customId.isEmpty()) ? customId : "CG-" + System.currentTimeMillis() % 1000000;
+        // 2. Metadata Block
+        String reportId = (customId != null && !customId.isEmpty()) ? customId : "CG-" + (System.currentTimeMillis() % 1000000);
         String dateStr = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.US).format(new Date());
 
         paint.setColor(Color.BLACK);
-        paint.setTextSize(11f);
-        paint.setFakeBoldText(false);
-        canvas.drawText("Report ID: " + reportId, 45, y, paint);
-        canvas.drawText("Date: " + dateStr, 350, y, paint);
+        paint.setTextSize(10f);
+        paint.setFakeBoldText(true);
+        canvas.drawText("Verification ID: " + reportId, 45, y, paint);
+        canvas.drawText("Scan Timestamp: " + dateStr, 340, y, paint);
 
-        y += 20;
+        y += 18;
         paint.setColor(Color.LTGRAY);
         canvas.drawLine(45, y, 550, y, paint);
-        y += 25;
+        y += 20;
 
-        // 3. Overall Result Banner
-        paint.setColor(Color.parseColor("#F5F5F5"));
-        canvas.drawRect(45, y, 550, y + 60, paint);
+        // 3. Banknote Details & Risk Score Banner
+        paint.setColor(Color.parseColor("#F8FAFC"));
+        canvas.drawRect(45, y, 550, y + 70, paint);
 
-        paint.setColor(Color.DKGRAY);
-        paint.setTextSize(10f);
-        canvas.drawText("CURRENCY & DENOMINATION", 60, y + 20, paint);
+        paint.setColor(Color.parseColor("#475569"));
+        paint.setTextSize(9.5f);
+        paint.setFakeBoldText(false);
+        canvas.drawText("BANKNOTE SPECIFICATIONS", 58, y + 20, paint);
+
         paint.setColor(Color.BLACK);
         paint.setTextSize(16f);
         paint.setFakeBoldText(true);
-        canvas.drawText(result.getDenomination() + " (" + result.getCurrency() + ")", 60, y + 45, paint);
+        canvas.drawText(result.getDenomination() + " (" + result.getCurrency() + ")", 58, y + 44, paint);
 
-        paint.setColor(Color.DKGRAY);
-        paint.setTextSize(10f);
+        String serialNum = result.getSerialNumber() != null && !result.getSerialNumber().isEmpty() ? result.getSerialNumber() : "Unclear";
+        paint.setColor(Color.parseColor("#64748B"));
+        paint.setTextSize(9.5f);
         paint.setFakeBoldText(false);
-        canvas.drawText("SCREENING VERDICT", 350, y + 20, paint);
+        canvas.drawText("Serial: " + serialNum + "  |  " + (result.isTwoSided() ? "Dual-Sided Verified" : "Single-Side Screening"), 58, y + 60, paint);
 
-        int statusColor = (result.getStatus() == com.example.currencyguard.model.AuthenticityStatus.NOT_A_CURRENCY) ? Color.parseColor("#D32F2F") :
-                ((result.getFinalConfidence() >= 80) ? Color.parseColor("#00C853") :
-                (result.getFinalConfidence() >= 55 ? Color.parseColor("#FFB300") : Color.parseColor("#F44336")));
+        paint.setColor(Color.parseColor("#475569"));
+        paint.setTextSize(9.5f);
+        canvas.drawText("AI RISK ASSESSMENT", 340, y + 20, paint);
+
+        int statusColor = Color.parseColor("#10B981");
+        String riskText = "LOW RISK (Score: " + result.getRiskScore() + "/100)";
+        if (result.getStatus() == com.example.currencyguard.model.AuthenticityStatus.NOT_A_CURRENCY) {
+            statusColor = Color.parseColor("#EF4444");
+            riskText = "NOT A CURRENCY NOTE";
+        } else if ("HIGH_RISK".equalsIgnoreCase(result.getRiskLevel()) || result.getRiskScore() >= 70) {
+            statusColor = Color.parseColor("#EF4444");
+            riskText = "HIGH RISK (Score: " + result.getRiskScore() + "/100)";
+        } else if ("SUSPICIOUS".equalsIgnoreCase(result.getRiskLevel()) || result.getRiskScore() >= 30) {
+            statusColor = Color.parseColor("#F59E0B");
+            riskText = "SUSPICIOUS (Score: " + result.getRiskScore() + "/100)";
+        }
+
         paint.setColor(statusColor);
         paint.setTextSize(13f);
         paint.setFakeBoldText(true);
-        String verdictStr = (result.getStatus() == com.example.currencyguard.model.AuthenticityStatus.NOT_A_CURRENCY)
-                ? "NOT A CURRENCY NOTE"
-                : result.getVerdictTitle() + " (" + (int)result.getFinalConfidence() + "%)";
-        canvas.drawText(verdictStr, 350, y + 45, paint);
+        canvas.drawText(riskText, 340, y + 44, paint);
 
-        y += 85;
+        paint.setColor(Color.parseColor("#64748B"));
+        paint.setTextSize(9.5f);
+        paint.setFakeBoldText(false);
+        canvas.drawText("Confidence: " + (int) result.getFinalConfidence() + "%", 340, y + 60, paint);
 
-        // 4. Real vs Fake Feature Checklist
+        y += 92;
+
+        // 4. Security Feature Verification Audit
         paint.setColor(Color.BLACK);
-        paint.setTextSize(13f);
+        paint.setTextSize(12f);
         paint.setFakeBoldText(true);
-        canvas.drawText(result.isCurrencyNote() ? "Real vs Fake Security Feature Audit" : "Banknote Detection Diagnostics", 45, y, paint);
+        canvas.drawText("Security Feature Verification Audit", 45, y, paint);
         y += 18;
 
-        paint.setTextSize(10f);
+        paint.setTextSize(9.5f);
         paint.setFakeBoldText(false);
         if (result.isCurrencyNote()) {
-            String threadCheck = result.isSecurityThreadReal() ? "REAL [PASS]" : "FAKE [FAIL - Low contrast / printed]";
-            String watermarkCheck = result.isWatermarkReal() ? "REAL [PASS]" : "FAKE [FAIL - Lacks fiber graduation]";
-            String substrateCheck = result.isSubstrateReal() ? "REAL [PASS]" : "FAKE [FAIL - Photocopy / plain paper]";
-            String alignmentCheck = result.isPrintAlignmentReal() ? "REAL [PASS]" : "FAKE [FAIL - Dimension discrepancy]";
-
-            canvas.drawText("• Security Thread: " + threadCheck, 60, y, paint); y += 15;
-            canvas.drawText("• Watermark Window: " + watermarkCheck, 60, y, paint); y += 15;
-            canvas.drawText("• Substrate & Texture: " + substrateCheck, 60, y, paint); y += 15;
-            canvas.drawText("• Print & Geometry: " + alignmentCheck, 60, y, paint); y += 22;
+            canvas.drawText("• Security Thread: [" + result.getSecurityThreadStatus() + "] " + result.getSecurityThreadDetail(), 60, y, paint); y += 16;
+            canvas.drawText("• Watermark Window: [" + result.getWatermarkStatus() + "] " + result.getWatermarkDetail(), 60, y, paint); y += 16;
+            canvas.drawText("• Substrate & Texture: [" + result.getSubstrateStatus() + "] " + result.getSubstrateDetail(), 60, y, paint); y += 16;
+            canvas.drawText("• Print & Geometry: [" + result.getAlignmentStatus() + "] " + result.getAlignmentDetail(), 60, y, paint); y += 22;
         } else {
-            canvas.drawText("• Rejection Reason: " + result.getVerdictSummary(), 60, y, paint); y += 15;
-            canvas.drawText("• Image does not exhibit official banknote dimensions, typography, or substrate markers.", 60, y, paint); y += 22;
+            canvas.drawText("• Rejection Reason: " + result.getVerdictSummary(), 60, y, paint); y += 16;
+            canvas.drawText("• Scanned image does not exhibit official currency layout, typography, or security marks.", 60, y, paint); y += 22;
         }
 
-        // 5. Detailed Component Analysis
+        // 5. Multi-Stage AI Component Analysis
         paint.setColor(Color.BLACK);
-        paint.setTextSize(13f);
+        paint.setTextSize(12f);
         paint.setFakeBoldText(true);
-        canvas.drawText("Multi-Stage AI Component Analysis", 45, y, paint);
+        canvas.drawText("Multi-Stage AI Component Breakdown", 45, y, paint);
         y += 18;
 
-        paint.setTextSize(10f);
+        paint.setTextSize(9.5f);
         paint.setFakeBoldText(false);
-        canvas.drawText("• Image Quality Gate: " + (int)result.getImageQualityScore() + "%", 60, y, paint); y += 15;
-        canvas.drawText("• Visual Classifier Model: " + (int)result.getVisualScore() + "%", 60, y, paint); y += 15;
-        canvas.drawText("• Security Region Features: " + (int)result.getSecurityScore() + "%", 60, y, paint); y += 15;
-        canvas.drawText("• OCR Text Consistency: " + (int)result.getOcrScore() + "%", 60, y, paint); y += 15;
-        canvas.drawText("• Geometry & Layout Alignment: " + (int)result.getGeometryScore() + "%", 60, y, paint); y += 15;
-        canvas.drawText("• Visual Anomaly Index: " + (int)result.getAnomalyScore() + " / 100", 60, y, paint); y += 22;
+        canvas.drawText("• Visual Model Similarity: " + (int) result.getVisualScore() + "% (Weight: 35%)", 60, y, paint); y += 15;
+        canvas.drawText("• Security Region Features: " + (int) result.getSecurityScore() + "% (Weight: 25%)", 60, y, paint); y += 15;
+        canvas.drawText("• OCR Text & Denomination: " + (int) result.getOcrScore() + "% (Weight: 15%)", 60, y, paint); y += 15;
+        canvas.drawText("• Geometry & Layout Alignment: " + (int) result.getGeometryScore() + "% (Weight: 15%)", 60, y, paint); y += 15;
+        canvas.drawText("• Input Image Quality Score: " + (int) result.getImageQualityScore() + "% (Weight: 10%)", 60, y, paint); y += 15;
+        canvas.drawText("• Visual Anomaly Index: " + (int) result.getAnomalyScore() + " / 100", 60, y, paint); y += 22;
 
-        // 5. AI Explanation
-        paint.setTextSize(13f);
+        // 6. AI Explanation Summary
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(12f);
         paint.setFakeBoldText(true);
-        canvas.drawText("AI Explanation", 45, y, paint);
+        canvas.drawText("AI Screening Summary & Rationale", 45, y, paint);
         y += 16;
 
-        paint.setTextSize(10f);
+        paint.setTextSize(9.5f);
         paint.setFakeBoldText(false);
         String explanation = result.getAiExplanation() != null ? result.getAiExplanation() : "Analysis completed successfully.";
-        // Draw wrapped explanation lines
         String[] words = explanation.split(" ");
         StringBuilder line = new StringBuilder();
         for (String w : words) {
@@ -151,18 +170,18 @@ public class PdfReportGenerator {
         }
         if (line.length() > 0) {
             canvas.drawText(line.toString(), 60, y, paint);
-            y += 24;
+            y += 22;
         }
 
-        // 6. Uncertainty Reasons (Feature 1 Doubt Meter)
-        if (!result.getUncertaintyReasons().isEmpty()) {
-            paint.setTextSize(13f);
+        // 7. Uncertainty Factors (AI Doubt Meter)
+        if (result.getUncertaintyReasons() != null && !result.getUncertaintyReasons().isEmpty()) {
+            paint.setTextSize(12f);
             paint.setFakeBoldText(true);
-            paint.setColor(Color.parseColor("#D32F2F"));
+            paint.setColor(Color.parseColor("#D97706"));
             canvas.drawText("Uncertainty Factors (AI Doubt Meter)", 45, y, paint);
             y += 16;
 
-            paint.setTextSize(10f);
+            paint.setTextSize(9.5f);
             paint.setFakeBoldText(false);
             paint.setColor(Color.BLACK);
             for (UncertaintyReason reason : result.getUncertaintyReasons()) {
@@ -172,21 +191,22 @@ public class PdfReportGenerator {
             y += 16;
         }
 
-        // 7. Mandatory Legal Disclaimer
+        // 8. Mandatory Institutional Legal Disclaimer
         y = 750;
         paint.setColor(Color.LTGRAY);
         canvas.drawLine(45, y, 550, y, paint);
-        y += 20;
+        y += 18;
 
         paint.setColor(Color.GRAY);
-        paint.setTextSize(9f);
+        paint.setTextSize(8.5f);
         paint.setFakeBoldText(false);
-        canvas.drawText("DISCLAIMER: This is an AI-assisted screening assessment and is NOT official currency authentication.", 45, y, paint);
-        canvas.drawText("CurrencyGuard AI prototype. Do not use as forensic or bank proof.", 45, y + 14, paint);
+        canvas.drawText("LEGAL NOTICE & AUDIT DISCLAIMER:", 45, y, paint); y += 12;
+        canvas.drawText("This report is an automated algorithmic screening assessment produced by CurrencyGuard AI.", 45, y, paint); y += 11;
+        canvas.drawText("It does not constitute an official central bank guarantee or forensic legal authentication.", 45, y, paint);
 
         document.finishPage(page);
 
-        // Save PDF to cache/external reports folder
+        // Save PDF to external reports folder
         File reportsDir = new File(context.getExternalFilesDir(null), "reports");
         if (!reportsDir.exists()) reportsDir.mkdirs();
 

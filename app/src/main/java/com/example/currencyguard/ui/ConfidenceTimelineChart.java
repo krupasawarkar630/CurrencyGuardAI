@@ -108,17 +108,28 @@ public class ConfidenceTimelineChart {
                 ? "AI predictions are stable and reliable across scans."
                 : "Predictions vary significantly. Capture under better lighting.";
 
+        // Detect Night Mode for adaptive high-contrast styling
+        Context context = chart.getContext();
+        boolean isNight = (context.getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES;
+        int textColor = isNight ? Color.parseColor("#94A3B8") : Color.parseColor("#475569");
+        int gridColor = isNight ? Color.parseColor("#1E293B") : Color.parseColor("#E2E8F0");
+        int accentColor = isNight ? Color.parseColor("#38BDF8") : Color.parseColor("#0284C7");
+        int fillColor = isNight ? Color.parseColor("#152E4D") : Color.parseColor("#E0F2FE");
+        int circleColor = isStable ? Color.parseColor("#10B981") : Color.parseColor("#F59E0B");
+
         // Style the MPAndroidChart LineDataSet
         LineDataSet dataSet = new LineDataSet(entries, "Confidence (%)");
-        dataSet.setColor(isStable ? Color.parseColor("#1976D2") : Color.parseColor("#FFB300"));
-        dataSet.setCircleColor(isStable ? Color.parseColor("#00C853") : Color.parseColor("#F44336"));
-        dataSet.setLineWidth(2.5f);
-        dataSet.setCircleRadius(4.5f);
+        dataSet.setColor(accentColor);
+        dataSet.setCircleColor(circleColor);
+        dataSet.setCircleHoleColor(isNight ? Color.parseColor("#111827") : Color.WHITE);
+        dataSet.setLineWidth(3f);
+        dataSet.setCircleRadius(5f);
         dataSet.setDrawCircleHole(true);
-        dataSet.setValueTextSize(10f);
-        dataSet.setValueTextColor(Color.DKGRAY);
+        dataSet.setValueTextSize(11f);
+        dataSet.setValueTextColor(isNight ? Color.parseColor("#F8FAFC") : Color.parseColor("#0F172A"));
         dataSet.setDrawFilled(true);
-        dataSet.setFillColor(Color.parseColor("#BBDEFB"));
+        dataSet.setFillColor(fillColor);
+        dataSet.setFillAlpha(isNight ? 160 : 180);
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
         LineData lineData = new LineData(dataSet);
@@ -132,16 +143,23 @@ public class ConfidenceTimelineChart {
         chart.setPinchZoom(false);
         chart.setScaleEnabled(false);
         chart.getLegend().setEnabled(false);
+        chart.setBackgroundColor(Color.TRANSPARENT);
+        chart.setDrawGridBackground(false);
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
         xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(textColor);
+        xAxis.setAxisLineColor(gridColor);
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setAxisMinimum(20f);
         leftAxis.setAxisMaximum(100f);
         leftAxis.setDrawGridLines(true);
+        leftAxis.setTextColor(textColor);
+        leftAxis.setGridColor(gridColor);
+        leftAxis.setAxisLineColor(gridColor);
 
         chart.getAxisRight().setEnabled(false);
         chart.animateX(600);

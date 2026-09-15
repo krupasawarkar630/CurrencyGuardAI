@@ -1,173 +1,597 @@
-# 💵 CurrencyGuard AI — Real-Time Banknote Counterfeit Detection & AI Forensics
+# CurrencyGuard AI 🛡️💵
 
-[![Android Build](https://img.shields.io/badge/Android-SDK%2036-brightgreen?style=for-the-badge&logo=android)](https://developer.android.com/)
-[![Java 21 / 17](https://img.shields.io/badge/Language-Java%2017%2F21-orange?style=for-the-badge&logo=openjdk)](https://www.oracle.com/java/)
-[![Gradle 8.6](https://img.shields.io/badge/Gradle-8.6-blue?style=for-the-badge&logo=gradle)](https://gradle.org/)
-[![TensorFlow Lite](https://img.shields.io/badge/ML-TensorFlow%20Lite%202.14-ff69b4?style=for-the-badge&logo=tensorflow)](https://www.tensorflow.org/lite)
-[![Firebase](https://img.shields.io/badge/Backend-Firebase%20Auth%20%26%20Firestore-yellow?style=for-the-badge&logo=firebase)](https://firebase.google.com/)
+### AI-Assisted Fake Currency Detection & Authenticity Screening
 
-**CurrencyGuard AI** is an advanced, production-grade Android application engineered for real-time banknote authenticity verification, physical security feature inspection, and explainable AI currency analytics. Powered by on-device **TensorFlow Lite**, **ML Kit OCR**, and cloud-based **Gemini 2.0 Flash / OpenRouter Vision** multimodal AI models, CurrencyGuard AI delivers instant, transparent, and actionable currency intelligence.
+CurrencyGuard AI is an Android application designed to assist users in screening currency notes for potential counterfeit anomalies using computer vision, machine learning, image analysis, and explainable AI techniques.
+
+The application combines multiple analysis stages instead of relying on a single prediction. It evaluates image quality, denomination information, security-feature regions, geometry, texture, and visual anomalies to generate an overall screening assessment.
+
+> **Important:** CurrencyGuard AI is a prototype/educational screening system. It does not replace official verification by banks, the Reserve Bank of India (RBI), or law-enforcement authorities.
 
 ---
 
 ## 🌟 Key Features
 
-### 1. 📸 Smart Live CameraX Scanner
-- **Auto-Guidance Reticle**: Real-time bounding guide (`SmartScanGuide`) ensuring optimal banknote distance, orientation, and framing.
-- **Real-Time Image Quality Analysis**: Detects motion blur, low lighting, glare, and cropping before sending frames to the AI pipeline (`ImageQualityAnalyzer`).
-- **Interactive Flash & Zoom Control**: Seamless touch-to-focus and toggle torch controls for dark environments.
+### 1. 🎯 AI Doubt Meter
 
-### 2. 🧠 Multi-Stage AI & ML Engine
-- **On-Device TensorFlow Lite Classifier**: Rapid initial classification (`Likely Genuine`, `Suspicious`, `Likely Fake`, `Unable to Verify`).
-- **ML Kit Text Recognition (v2 OCR)**: Extracts and verifies banknote serial numbers, central bank signatures, and denomination numbers (`OCRAnalyzer`).
-- **Security Feature & Anomaly Detection**: Analyzes watermarks, security threads, color-shift inks, and microlettering alignment (`SecurityFeatureAnalyzer`, `AnomalyDetector`).
-- **Uncertainty Engine**: Calculates confidence scores and breaks down risk factors when physical features are ambiguous (`UncertaintyAnalyzer`).
+CurrencyGuard AI includes an uncertainty-analysis layer that explains **why the system may have lower confidence** instead of showing only a single percentage.
 
-### 3. 🔬 Cloud Multimodal Vision Forensics (OpenRouter & Gemini)
-- **Multimodal AI Deep Inspection**: Sends high-resolution banknote captures to vision models like **Gemini 2.0 Flash** and **Llama 3.2 Vision** via **OpenRouter API** (`OpenRouterVisionService`, `GeminiVisionService`).
-- **Local Fallback Engine**: Provides full offline analytical reports (`LocalExplanationGenerator`) if no internet or API key is available.
+Possible reasons include:
 
-### 4. 📊 Explainable AI (XAI) & Dynamic Visualizations
-- **Heatmap Overlay (`HeatmapOverlayView`)**: Visualizes exact image regions contributing to authenticity or anomaly flags using Class Activation Mapping (CAM) concepts.
-- **Confidence Timeline Chart (`ConfidenceTimelineChart`)**: Interactive breakdown of security feature confidence metrics using MPAndroidChart.
-- **PDF Forensic Reports**: Generates formal PDF authenticity certificates (`PdfReportGenerator`) with complete breakdown, timestamps, and image snapshots.
+* `LOW_IMAGE_QUALITY` — Blur, glare, poor illumination, or unclear image
+* `CONFLICTING_MODELS` — Different analysis stages produce inconsistent results
+* `UNUSUAL_GEOMETRY` — Note dimensions or aspect ratio appear unusual
+* `MISSING_SECURITY_FEATURES` — Important regions are unclear or difficult to analyze
+* `OCR_MISMATCH` — Detected denomination information does not align with the screening result
+* `HIGH_ANOMALY_SCORE` — Unusual color, texture, or visual patterns
 
-### 5. 💬 Ask CurrencyGuard AI Chatbot & Voice Assistant
-- **Context-Aware Educational Chat**: Instant answers on security features, counterfeit identification tips, and currency policies (`ChatAssistantActivity`, `ChatAssistantService`).
-- **Text-to-Speech & Voice Input**: Hands-free voice assistant functionality powered by `Android TextToSpeech` (`AiVoiceManager`).
-
-### 6. 💱 Multi-Country Currency Converter
-- **Live Currency Exchange**: Converts rates across major world currencies with an interactive interface (`CurrencyConverterActivity`).
-
-### 7. 🔐 User Gate & Data Management
-- **Firebase Authentication**: Secure user login, registration, and session gate (`AuthActivity`, `FirebaseAuthManager`).
-- **Room Database & Cloud Sync**: Persistent local storage of scan history (`AppDatabase`, `ScanResultDao`) synced seamlessly with Firebase Firestore (`FirebaseSyncManager`).
-- **Secure File Sharing**: Android `FileProvider` integration for secure PDF and image sharing (`ShareUtils`).
+This provides the user with an understandable **AI Doubt Meter** rather than hiding uncertainty.
 
 ---
 
-## 🏗️ Project Architecture & Tech Stack
+### 2. 📈 Confidence Timeline
+
+The application can track confidence scores across multiple captures of the same note.
+
+The system calculates confidence variation using standard deviation:
 
 ```text
-CurrencyGuardAI
-├── app
-│   ├── src/main/java/com/example/currencyguard/
-│   │   ├── activity/        # App Screen Host Activities (Main, Scan, Analysis, Result, Chat, Auth, Converter)
-│   │   ├── adapter/         # RecyclerView Adapters (Scan History, Chat Messages, Learn Cards)
-│   │   ├── ai/              # AI Services (OpenRouter, Gemini, Voice Manager, Confidence Engine)
-│   │   ├── camera/          # CameraX Helpers & Real-Time Alignment Guide
-│   │   ├── database/        # Room Database (AppDatabase, ScanResultDao)
-│   │   ├── firebase/        # Firebase Authentication & Cloud Firestore Sync Manager
-│   │   ├── fragment/        # Dashboard Views (Home, History, Learn, Profile)
-│   │   ├── ml/              # Machine Learning Pipeline (TFLite, OCR, Anomaly, Heatmaps)
-│   │   ├── model/           # Data Models (ScanResult, AnalysisResult, ChatMessage)
-│   │   ├── repository/      # Repository Pattern (ScanRepository)
-│   │   ├── ui/              # Custom Dynamic Views (Heatmap Overlay, Confidence Chart)
-│   │   └── utils/           # Helper Utilities (PDF Generator, Settings, Image Processing)
-│   └── src/main/res/        # Material 3 Layouts, Drawables, Styles, and Localization (AR, DE, ES, FR, HI)
+σ = √(1/N × Σ(xᵢ - μ)²)
 ```
 
-### Technical Specifications
+The result can be presented as an **AI Consistency Score**.
 
-| Layer | Technology |
-|---|---|
-| **Language** | Java 17 / Java 21 (Android Studio JBR) |
-| **Minimum SDK** | Android 7.0 (API Level 24) |
-| **Target / Compile SDK** | Android 14 / 15 (API Level 36) |
-| **Camera Framework** | AndroidX CameraX `1.3.4` |
-| **Machine Learning** | TensorFlow Lite `2.14.0`, TFLite Support `0.4.4`, ML Kit Text Recognition `19.0.1` |
-| **UI Components** | Material Design 3, ConstraintLayout, MPAndroidChart `v3.1.0` |
-| **Networking** | OkHttp `4.12.0` |
-| **Persistence** | Room Database `2.6.1` & Firebase Cloud Firestore |
-| **Authentication** | Firebase Auth BoM `33.7.0` |
+Example:
+
+```text
+92% Consistency
+Stable & Reliable
+```
+
+or:
+
+```text
+High Volatility: ±9.4%
+Please retake under better lighting
+```
+
+This helps identify whether repeated scans are producing stable results.
 
 ---
 
-## 🛠️ Prerequisites & Setup Guide
+### 3. 🧩 Multi-Stage Analysis Pipeline
 
-### 1. Requirements
-- **Android Studio**: Jellyfish (2024.1+) or Ladybug (2024.2+) recommended.
-- **JDK**: JDK 17 or JDK 21 (bundled Android Studio JBR at `C:\Program Files\Android\Android Studio\jbr`).
-- **Android SDK**: API Level 36 installed.
+CurrencyGuard AI combines multiple specialized analysis stages.
 
-### 2. Environment Configuration
+#### Analysis stages
 
-#### `local.properties`
-Create or update `local.properties` in the project root to specify your local Android SDK location:
-```properties
-sdk.dir=D:\\Movies
-# OR default location:
-# sdk.dir=C:\\Users\\YOUR_USERNAME\\AppData\\Local\\Android\\Sdk
+1. **Visual Analysis**
+
+   * TensorFlow Lite model
+   * Visual feature analysis
+
+2. **Security Feature Analysis**
+
+   * Region-based analysis
+   * Watermark/security-thread related regions
+
+3. **OCR Consistency**
+
+   * ML Kit Text Recognition
+   * Denomination and visible text analysis
+
+4. **Geometry Analysis**
+
+   * Aspect ratio
+   * Orientation
+   * Rectangular proportion checks
+
+5. **Image Quality Gate**
+
+   * Blur detection
+   * Lighting/quality checks
+   * Prevents unreliable images from proceeding
+
+6. **Texture & Visual Anomaly Analysis**
+
+   * Edge-density analysis
+   * Color distribution
+   * Texture variation
+
+The results are combined by the confidence engine to produce an overall screening assessment.
+
+---
+
+## 4. 🎨 AI Attention Heatmap
+
+CurrencyGuard AI can visualize regions that influenced the screening analysis.
+
+The heatmap uses an intuitive interpretation:
+
+| Indicator | Meaning                            |
+| --------- | ---------------------------------- |
+| 🟢 Green  | Strong consistency                 |
+| 🟡 Yellow | Moderate confidence / ambiguity    |
+| 🔴 Red    | Potential anomaly / low confidence |
+
+The purpose is to make the AI result more understandable to the user.
+
+---
+
+## 5. 🤖 AI Explanation Layer
+
+CurrencyGuard AI supports an AI explanation layer that converts structured analysis results into a short, human-readable explanation.
+
+### Optional Gemini Layer
+
+When configured, Gemini can generate a concise explanation based on the structured findings.
+
+### Local Fallback
+
+If the application is offline or an AI API key is not configured, the application can use a local rule-based explanation system.
+
+This allows the core screening workflow to remain usable without depending completely on a cloud AI service.
+
+---
+
+## 6. 📄 Currency Passport & PDF Report
+
+CurrencyGuard AI can generate a digital screening report containing information such as:
+
+* Unique Passport ID
+* Date and time
+* Front/back note thumbnails
+* Overall screening score
+* Individual analysis results
+* Confidence information
+* AI explanation
+* Disclaimer
+
+Example Passport ID format:
+
+```text
+CG-YYYY-XXXXXX
 ```
 
-#### `gradle.properties`
-Ensure `gradle.properties` includes the proper JDK 21 path and network flags:
-```properties
-# Project-wide Gradle settings.
-org.gradle.java.home=C:\\Program Files\\Android\\Android Studio\\jbr
-org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Dhttps.protocols=TLSv1.2,TLSv1.3 -Djava.net.preferIPv4Stack=true -Dhttp.keepAlive=false
-android.useAndroidX=true
-android.enableJetifier=true
-android.nonTransitiveRClass=true
-android.suppressUnsupportedCompileSdk=36
+Reports are generated using Android's native `PdfDocument` API.
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                 ┌─────────────────────────┐
+                 │ CameraX / Gallery Input │
+                 └────────────┬────────────┘
+                              │
+                              ▼
+                 ┌─────────────────────────┐
+                 │   Image Quality Gate    │
+                 └────────────┬────────────┘
+                              │
+                    Quality < Threshold
+                              │
+                              ▼
+                    ┌─────────────────┐
+                    │  Retake Image   │
+                    └─────────────────┘
+
+                              │
+                              ▼
+             ┌────────────────────────────────┐
+             │ Currency & Denomination Check  │
+             └───────────────┬────────────────┘
+                             │
+             ┌───────────────┴────────────────┐
+             ▼                                ▼
+   ┌──────────────────┐             ┌──────────────────┐
+   │ TensorFlow Lite  │             │ ML Kit OCR       │
+   │ Visual Analysis  │             │ Text Analysis    │
+   └────────┬─────────┘             └────────┬─────────┘
+            │                                │
+            ▼                                ▼
+   ┌──────────────────┐             ┌──────────────────┐
+   │ Security Feature │             │ Geometry &       │
+   │ Analysis         │             │ Anomaly Analysis │
+   └────────┬─────────┘             └────────┬─────────┘
+            │                                │
+            └──────────────┬─────────────────┘
+                           ▼
+              ┌────────────────────────┐
+              │   AI Doubt Meter       │
+              │ Uncertainty Analyzer   │
+              └────────────┬───────────┘
+                           │
+                           ▼
+              ┌────────────────────────┐
+              │   Confidence Engine    │
+              │   & Calibration        │
+              └────────────┬───────────┘
+                           │
+              ┌────────────┴────────────┐
+              ▼                         ▼
+     ┌──────────────────┐      ┌────────────────────┐
+     │ Heatmap / Visual │      │ AI Explanation     │
+     │ Analysis         │      │ Layer              │
+     └────────┬─────────┘      └─────────┬──────────┘
+              │                          │
+              └────────────┬─────────────┘
+                           ▼
+              ┌────────────────────────┐
+              │ Screening Result       │
+              │ + Confidence Timeline  │
+              └────────────┬───────────┘
+                           │
+                           ▼
+                 ┌──────────────────┐
+                 │ PDF Report /     │
+                 │ Currency Passport│
+                 └──────────────────┘
 ```
 
 ---
 
-## 🚀 Building & Running
+# 📱 Technology Stack
 
-### Command Line (Gradle Wrapper)
-To assemble the debug APK directly from terminal:
+## Android
+
+* **Java**
+* **XML**
+* Android Studio
+* Material Design 3
+* CameraX
+
+## Machine Learning & AI
+
+* TensorFlow Lite
+* Google ML Kit
+* Computer Vision
+* Image Quality Analysis
+* Visual Anomaly Detection
+* Optional Gemini AI explanation layer
+
+## Local Storage
+
+* Room Database
+
+## Visualization
+
+* MPAndroidChart
+* AI confidence timeline
+* Heatmap visualization
+
+## Report Generation
+
+* Android `PdfDocument`
+
+---
+
+# 📂 Project Architecture
+
+The project follows a modular Android application structure.
+
+```text
+CurrencyGuardAI/
+│
+├── app/
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/
+│   │       │   └── ...
+│   │       │
+│   │       ├── res/
+│   │       │   ├── drawable/
+│   │       │   ├── layout/
+│   │       │   ├── mipmap/
+│   │       │   ├── values/
+│   │       │   └── xml/
+│   │       │
+│   │       └── AndroidManifest.xml
+│   │
+│   └── build.gradle
+│
+├── gradle/
+├── build.gradle
+├── settings.gradle
+└── README.md
+```
+
+Important analysis components include classes such as:
+
+```text
+UncertaintyAnalyzer.java
+ConfidenceEngine.java
+ConfidenceTimelineChart.java
+LocalExplanationGenerator.java
+```
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
+
+Install the following:
+
+* Android Studio Iguana 2023.2.1 or newer
+* JDK 17
+* Android SDK
+* Android device or emulator
+* Minimum Android API: 24
+* Target Android API: 36
+
+A physical Android device is recommended when testing camera-based functionality.
+
+---
+
+# 🔧 Installation
+
+### 1. Clone the repository
+
 ```bash
-# Windows
-.\gradlew.bat assembleDebug
-
-# Linux / macOS
-./gradlew assembleDebug
+git clone https://github.com/krupasawarkar630/CurrencyGuardAI.git
 ```
-The compiled APK will be located at:
-`app/build/outputs/apk/debug/app-debug.apk`
 
-### Android Studio
-1. Open Android Studio and select **Open Project** -> Choose `CurrencyGuardAI`.
-2. Allow Gradle Sync to finish.
-3. Connect an Android device (or launch an Emulator running API 24+).
-4. Click **Run 'app'** (`Shift + F10`).
+### 2. Open the project
+
+Open the cloned project in Android Studio.
+
+### 3. Allow Gradle Sync
+
+Wait for Android Studio to download and synchronize the required dependencies.
+
+### 4. Connect an Android device
+
+Enable:
+
+```text
+Developer Options
+        ↓
+USB Debugging
+```
+
+Alternatively, use an Android emulator.
+
+### 5. Build the application
+
+In Android Studio:
+
+```text
+Build → Make Project
+```
+
+### 6. Run the application
+
+Click:
+
+```text
+Run ▶
+```
+
+and select your connected device/emulator.
 
 ---
 
-## 🔑 Firebase & API Key Setup (Optional)
+# 🧪 Demo Mode
 
-1. **Firebase Integration**:
-   - Place your `google-services.json` file inside the `app/` directory (`CurrencyGuardAI/app/google-services.json`).
-   - Enable **Email/Password** or **Google Sign-In** under your Firebase Console -> Authentication.
+CurrencyGuard AI supports a demonstration workflow so that the application can be tested without requiring a custom trained neural network.
 
-2. **OpenRouter / Gemini Vision Key**:
-   - Launch the app -> Navigate to **Profile / Settings**.
-   - Enter your OpenRouter API key (`sk-or-v1-...`) to unlock cloud multimodal AI vision inspection.
-   - *Note: If no API key is provided, CurrencyGuard AI automatically operates in 100% offline local AI fallback mode.*
+Demo mode can be used to demonstrate:
+
+* Note scanning
+* Image-quality analysis
+* Confidence scoring
+* AI Doubt Meter
+* Security-feature analysis
+* OCR workflow
+* Anomaly analysis
+* Confidence timeline
+* Heatmap visualization
+* AI explanation
+* PDF report generation
+
+> Demo results should not be interpreted as real-world counterfeit certification.
 
 ---
 
-## 🔒 Security & Privacy
+# 🔐 Privacy & Security
 
-- **Zero Secret Exposure**: API keys are saved locally in private `SharedPreferences` and are never hardcoded into source control.
-- **Privacy First**: Banknote scans are processed on-device by default. Cloud vision requests are only dispatched when explicitly authorized by the user.
+CurrencyGuard AI is designed with a privacy-first approach.
+
+The application aims to minimize unnecessary transmission of currency images and analysis data.
+
+Where possible, analysis can be performed locally on the device using:
+
+* TensorFlow Lite
+* ML Kit
+* Local image-processing algorithms
+* Local rule-based explanations
+* Room Database
+
+The optional Gemini explanation layer may require sending structured analysis information to an external AI service depending on the configured implementation.
+
+Users should review the configured privacy and API policies before deploying the application for real-world use.
+
+---
+
+# 🧠 Explainable AI Approach
+
+Instead of presenting only:
+
+```text
+Authentic: 87%
+```
+
+CurrencyGuard AI aims to provide additional context:
+
+```text
+Screening Confidence: 87%
+
+Why confidence is reduced:
+• Image quality is moderate
+• OCR result is partially unclear
+• Security-feature region requires another capture
+
+Recommendation:
+Retake the note under even lighting.
+```
+
+This makes the result easier to understand and encourages human verification when uncertainty is high.
+
+---
+
+# ⚠️ Responsible AI
+
+CurrencyGuard AI is intended as an **assistance and screening tool**, not an official currency authentication system.
+
+The application:
+
+* Does not replace bank verification
+* Does not replace RBI verification
+* Does not replace law-enforcement verification
+* Does not guarantee that a note is genuine or counterfeit
+* Should not be used as the sole basis for financial or legal decisions
+
+A screening result should always be treated as an indication that may require further verification.
+
+---
+
+# 📊 Example Screening Flow
+
+```text
+Capture Note
+     ↓
+Check Image Quality
+     ↓
+Detect Denomination
+     ↓
+Analyze Visual Features
+     ↓
+Analyze Security Regions
+     ↓
+Run OCR Consistency Check
+     ↓
+Check Geometry
+     ↓
+Analyze Texture & Anomalies
+     ↓
+Calculate Confidence
+     ↓
+Generate Doubt Meter
+     ↓
+Generate Explanation
+     ↓
+Display Result
+     ↓
+Export PDF Report
+```
+
+---
+
+# 🎯 Project Goals
+
+CurrencyGuard AI aims to demonstrate how AI-assisted computer vision can be combined with explainability and uncertainty communication for currency screening.
+
+The major goals are:
+
+1. Reduce dependence on a single AI prediction.
+2. Communicate uncertainty clearly.
+3. Combine multiple visual and analytical signals.
+4. Provide explainable screening results.
+5. Encourage users to retake poor-quality images.
+6. Maintain a privacy-conscious architecture.
+7. Provide a digital screening report.
+8. Demonstrate responsible AI usage.
+
+---
+
+# 🔮 Future Improvements
+
+Possible future improvements include:
+
+* Larger real-world currency datasets
+* More denominations and currencies
+* Improved counterfeit-specific datasets
+* Advanced object detection
+* Improved security-feature localization
+* More robust OCR preprocessing
+* Federated learning
+* Model calibration using real validation data
+* Better offline AI models
+* Government/banking verification integration
+* Advanced document/report analytics
+* Improved accessibility for visually impaired users
+
+---
+
+# 📌 Limitations
+
+The effectiveness of counterfeit screening depends on:
+
+* Image quality
+* Camera quality
+* Lighting conditions
+* Note orientation
+* Training/validation data
+* Model accuracy
+* Availability and quality of visible security features
+
+A prototype model or demo dataset cannot establish real-world counterfeit-detection accuracy without proper field validation.
+
+Therefore, the application should not make unsupported claims of guaranteed detection accuracy.
+
+---
+
+# 👩‍💻 Development
+
+CurrencyGuard AI is developed as an Android application using Java and XML.
+
+The project focuses on:
+
+```text
+Android Development
+        +
+Computer Vision
+        +
+Machine Learning
+        +
+Explainable AI
+        +
+Responsible AI
+```
+
+---
+
+# 📜 Disclaimer
+
+**IMPORTANT DISCLAIMER**
+
+CurrencyGuard AI provides an automated visual screening assessment for educational, research, and prototype demonstration purposes.
+
+It is **not an official currency authentication system** and is not a substitute for verification by banks, the Reserve Bank of India (RBI), or law-enforcement authorities.
+
+The application's output should not be considered a definitive declaration that a currency note is genuine or counterfeit.
+
+---
+
+# ⭐ Project
+
+**Project Name:** CurrencyGuard AI
+
+**Category:** AI-Assisted Currency Screening
+
+**Platform:** Android
+
+**Language:** Java
+
+**UI:** XML + Material Design 3
+
+**AI/ML:** TensorFlow Lite + ML Kit + Optional Gemini
 
 ---
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+This project is intended for educational, research, and hackathon/prototype purposes.
 
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/krupasawarkar630/CurrencyGuardAI/issues).
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AwesomeFeature`)
-3. Commit your Changes (`git commit -m 'Add some AwesomeFeature'`)
-4. Push to the Branch (`git push origin feature/AwesomeFeature`)
-5. Open a Pull Request
+Add an appropriate open-source license before distributing the project publicly.

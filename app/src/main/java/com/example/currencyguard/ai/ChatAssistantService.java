@@ -59,53 +59,17 @@ public class ChatAssistantService {
             return;
         }
 
-        // Online OpenRouter query if key is configured
-        executor.execute(() -> {
-            String systemPrompt = "You are an educational assistant for CurrencyGuard AI. " +
-                    "Explain currency anti-counterfeiting features in clear, simple terms. " +
-                    "Never explain how to manufacture counterfeit money or bypass detection. " +
-                    "Keep your answer natural, articulate, and under 110 words so it can easily be spoken aloud.";
-
-            String selectedModel = OpenRouterService.getActiveModel(context);
-            String[] modelsToTry = new String[]{selectedModel, OpenRouterService.MODEL_GEMINI_FREE, OpenRouterService.MODEL_LLAMA_FREE};
-
-            for (String model : modelsToTry) {
-                try {
-                    JSONObject systemMsg = new JSONObject().put("role", "system").put("content", systemPrompt);
-                    JSONObject userMsg = new JSONObject().put("role", "user").put("content", query);
-                    JSONArray messages = new JSONArray().put(systemMsg).put(userMsg);
-
-                    JSONObject payload = new JSONObject();
-                    payload.put("model", model);
-                    payload.put("messages", messages);
-                    payload.put("temperature", 0.3);
-
-                    RequestBody body = RequestBody.create(payload.toString(), JSON_MEDIA);
-                    Request req = new Request.Builder()
-                            .url("https://openrouter.ai/api/v1/chat/completions")
-                            .header("Authorization", "Bearer " + apiKey)
-                            .header("HTTP-Referer", "https://currencyguard.ai")
-                            .header("X-Title", "CurrencyGuard AI")
-                            .post(body)
-                            .build();
-
-                    try (Response resp = httpClient.newCall(req).execute()) {
-                        if (resp.isSuccessful() && resp.body() != null) {
-                            JSONObject json = new JSONObject(resp.body().string());
-                            JSONArray choices = json.optJSONArray("choices");
-                            if (choices != null && choices.length() > 0) {
-                                String reply = choices.getJSONObject(0)
-                                        .getJSONObject("message")
-                                        .getString("content");
-                                mainHandler.post(() -> callback.onReply(reply.trim()));
-                                return;
-                            }
-                        }
-                    }
-                } catch (Exception ignored) {}
+        // Online Google Gemini query if key is configured
+        new GeminiApiService().queryChat(context, query, new GeminiApiService.ChatCallback() {
+            @Override
+            public void onReplyReady(String reply) {
+                mainHandler.post(() -> callback.onReply(reply));
             }
 
-            mainHandler.post(() -> callback.onReply(getDefaultEducationalReply()));
+            @Override
+            public void onError(String error) {
+                mainHandler.post(() -> callback.onReply(getDefaultEducationalReply()));
+            }
         });
     }
 

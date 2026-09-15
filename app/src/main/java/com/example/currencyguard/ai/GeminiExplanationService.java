@@ -5,11 +5,11 @@ import android.content.Context;
 import com.example.currencyguard.model.AnalysisResult;
 
 /**
- * Compatibility adapter routing explanation requests to OpenRouterService.
+ * Service routing explanation requests directly to Google Gemini API.
  */
 public class GeminiExplanationService {
 
-    private final OpenRouterService openRouterService = new OpenRouterService();
+    private final GeminiApiService geminiApiService = new GeminiApiService();
 
     public interface ExplanationCallback {
         void onExplanationReady(String explanation, boolean isCloud);
@@ -20,26 +20,26 @@ public class GeminiExplanationService {
     }
 
     public static void saveApiKey(Context context, String apiKey) {
-        OpenRouterService.saveApiKey(context, apiKey);
+        GeminiApiService.saveApiKey(context, apiKey);
     }
 
     public static String getApiKey(Context context) {
-        return OpenRouterService.getApiKey(context);
+        return GeminiApiService.getApiKey(context);
     }
 
     public static void setActiveModel(Context context, String model) {
-        OpenRouterService.setActiveModel(context, model);
+        GeminiApiService.setActiveModel(context, model);
     }
 
     public static String getActiveModel(Context context) {
-        return OpenRouterService.getActiveModel(context);
+        return GeminiApiService.getActiveModel(context);
     }
 
     public void explain(Context context, AnalysisResult result, ExplanationCallback callback) {
-        openRouterService.explain(context, result, callback::onExplanationReady);
+        geminiApiService.explain(context, result, callback::onExplanationReady);
     }
 
     public void testApiKey(Context context, String apiKey, TestCallback callback) {
-        openRouterService.testApiKey(context, apiKey, callback::onTestResult);
+        geminiApiService.testApiKey(context, apiKey, callback::onTestResult);
     }
 }

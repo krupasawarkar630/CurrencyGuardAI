@@ -5,11 +5,15 @@ package com.example.currencyguard.model;
  * Provides explicit Real vs Fake verdicts alongside confidence calibration.
  */
 public enum AuthenticityStatus {
-    LIKELY_GENUINE("Likely Genuine", "REAL CURRENCY", "Authentic Banknote Screening Passed"),
-    SUSPICIOUS("Suspicious", "SUSPICIOUS NOTE", "Inconclusive / Mixed Security Signals"),
-    LIKELY_FAKE("Likely Fake", "FAKE CURRENCY", "High Counterfeit Risk Detected"),
-    NOT_A_CURRENCY("Not a Currency Note", "NOT A CURRENCY NOTE", "No recognized banknote detected in this image"),
-    UNABLE_TO_VERIFY("Unable to Verify", "UNABLE TO VERIFY", "Poor Image Quality / Obstructed View");
+    LOW_RISK("Low Risk", "LOW RISK", "Detected features are largely consistent with expected banknote patterns."),
+    SUSPICIOUS("Suspicious", "SUSPICIOUS NOTE", "Some expected security characteristics could not be confidently verified."),
+    HIGH_RISK("High Risk", "HIGH RISK", "Multiple characteristics show significant inconsistencies or failed checks."),
+    NOT_A_CURRENCY("Not a Currency Note", "NOT A CURRENCY NOTE", "No recognized banknote detected in this image."),
+    UNABLE_TO_VERIFY("Unable to Verify", "UNABLE TO VERIFY", "Poor image quality or obstructed view.");
+
+    // Legacy aliases for backwards compatibility
+    public static final AuthenticityStatus LIKELY_GENUINE = LOW_RISK;
+    public static final AuthenticityStatus LIKELY_FAKE = HIGH_RISK;
 
     private final String displayName;
     private final String verdictTitle;
@@ -34,11 +38,11 @@ public enum AuthenticityStatus {
     }
 
     public boolean isReal() {
-        return this == LIKELY_GENUINE;
+        return this == LOW_RISK;
     }
 
     public boolean isFake() {
-        return this == LIKELY_FAKE;
+        return this == HIGH_RISK;
     }
 
     public boolean isSuspicious() {
@@ -53,12 +57,12 @@ public enum AuthenticityStatus {
         if (hasCriticalFailure) {
             return UNABLE_TO_VERIFY;
         }
-        if (score >= 80.0) {
-            return LIKELY_GENUINE;
-        } else if (score >= 55.0) {
+        if (score >= 75.0) {
+            return LOW_RISK;
+        } else if (score >= 45.0) {
             return SUSPICIOUS;
         } else {
-            return LIKELY_FAKE;
+            return HIGH_RISK;
         }
     }
 }

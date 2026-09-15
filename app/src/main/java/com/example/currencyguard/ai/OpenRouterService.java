@@ -75,7 +75,12 @@ public class OpenRouterService {
 
     public static String getApiKey(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return prefs.getString(KEY_OPENROUTER_API, "");
+        // Look up OpenRouter key first, fallback to previous key storage if present
+        String key = prefs.getString(KEY_OPENROUTER_API, "");
+        if (key.isEmpty()) {
+            key = prefs.getString("legacy_openrouter_key", "");
+        }
+        return key;
     }
 
     public static void setActiveModel(Context context, String model) {

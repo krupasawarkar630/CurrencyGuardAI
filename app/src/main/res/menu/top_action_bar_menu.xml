@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_ask_ai"
+        android:icon="@drawable/ic_ai_copilot"
+        android:title="AI Copilot"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_whatsapp_bot"
+        android:icon="@drawable/ic_whatsapp"
+        android:title="WhatsApp Chatbot"
+        app:iconTint="@null"
+        app:showAsAction="always" />
+
+</menu>

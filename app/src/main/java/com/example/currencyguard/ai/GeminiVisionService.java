@@ -6,27 +6,46 @@ import android.graphics.Bitmap;
 import com.example.currencyguard.model.AnalysisResult;
 
 /**
- * Compatibility adapter routing vision forensics to OpenRouterVisionService.
+ * Service routing multimodal vision forensics directly to Google Gemini API.
  */
 public class GeminiVisionService {
 
-    private final OpenRouterVisionService visionService = new OpenRouterVisionService();
+    private final GeminiApiService geminiApiService = new GeminiApiService();
 
     public interface VisionCallback {
         void onVisionReportReady(String report, boolean isCloud);
         void onVisionError(String error);
     }
 
+    public interface VisionAuditCallback {
+        void onAuditSuccess(String detailedReport);
+        void onAuditFailure(String errorMessage);
+    }
+
     public void analyzeImage(Context context, Bitmap bitmap, AnalysisResult currentResult, VisionCallback callback) {
-        visionService.analyzeImage(context, bitmap, currentResult, new OpenRouterVisionService.VisionCallback() {
+        geminiApiService.analyzeBanknoteVision(context, bitmap, currentResult, new GeminiApiService.VisionCallback() {
             @Override
-            public void onVisionReportReady(String report, boolean isCloudOpenRouter) {
-                callback.onVisionReportReady(report, isCloudOpenRouter);
+            public void onVisionReportReady(String report, boolean isGeminiCloud) {
+                if (callback != null) callback.onVisionReportReady(report, isGeminiCloud);
             }
 
             @Override
             public void onVisionError(String error) {
-                callback.onVisionError(error);
+                if (callback != null) callback.onVisionError(error);
+            }
+        });
+    }
+
+    public void analyzeBanknoteVision(Context context, Bitmap bitmap, AnalysisResult currentResult, VisionAuditCallback callback) {
+        analyzeImage(context, bitmap, currentResult, new VisionCallback() {
+            @Override
+            public void onVisionReportReady(String report, boolean isCloud) {
+                if (callback != null) callback.onAuditSuccess(report);
+            }
+
+            @Override
+            public void onVisionError(String error) {
+                if (callback != null) callback.onAuditFailure(error);
             }
         });
     }

@@ -159,6 +159,9 @@ public class AnalysisActivity extends AppCompatActivity {
             rejectedResult.setDenomination("None");
             rejectedResult.setCurrency("N/A");
             rejectedResult.setFinalConfidence(0.0);
+            rejectedResult.setRiskScore(100);
+            rejectedResult.setRiskLevel("UNVERIFIED");
+            rejectedResult.setVerificationId("CG-REJECTED-" + (System.currentTimeMillis() % 10000));
             rejectedResult.setImageQualityScore(qualityReport.getScore());
             rejectedResult.setAiExplanation("The uploaded image does not contain a recognized currency note. " +
                     "CurrencyGuard AI is designed strictly for currency banknotes. " +
@@ -200,7 +203,11 @@ public class AnalysisActivity extends AppCompatActivity {
         updateStep(stepAnomaly, "✓ Stage 6: Anomaly Screening Complete", "Calculating visual anomaly index...");
         AnomalyDetector anomalyDetector = new AnomalyDetector();
         AnomalyDetector.AnomalyReport anomalyReport = anomalyDetector.detect(bitmap);
-        sleepBriefly(300);
+        sleepBriefly(250);
+
+        // Anti-Spoofing & Screen Recapture Analysis
+        com.example.currencyguard.ml.ScreenRecaptureDetector screenDetector = new com.example.currencyguard.ml.ScreenRecaptureDetector();
+        com.example.currencyguard.ml.ScreenRecaptureDetector.ScreenReport screenReport = screenDetector.detect(bitmap, ocrResult.getRawText());
 
         // Stage 7: Confidence Engine & AI Doubt Meter
         updateStep(stepDoubt, "✓ Stage 7: Confidence Calibrated & Doubt Audited", "Finalizing assessment...");
@@ -215,7 +222,8 @@ public class AnalysisActivity extends AppCompatActivity {
                 detection.getGeometryScore(),
                 anomalyReport.getAnomalyScore(),
                 ocrResult.getRawText(),
-                isDualSided
+                isDualSided,
+                screenReport
         );
 
         // Generate Grad-CAM Attention Heatmap
@@ -275,6 +283,11 @@ public class AnalysisActivity extends AppCompatActivity {
         scan.setBackImagePath(backPath);
         scan.setAiExplanation(result.getAiExplanation());
         scan.setStatus(result.getStatus().name());
+        scan.setRiskScore(result.getRiskScore());
+        scan.setRiskLevel(result.getRiskLevel());
+        scan.setVerificationId(result.getVerificationId());
+        scan.setSerialNumber(result.getSerialNumber());
+        scan.setDualSided((backPath != null && !backPath.isEmpty()) || "Both".equalsIgnoreCase(sideHint));
 
         JSONArray reasonsArray = new JSONArray();
         if (result.getUncertaintyReasons() != null) {

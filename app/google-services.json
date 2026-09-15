@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "147660879272",
+    "project_id": "currencyguard-ai",
+    "storage_bucket": "currencyguard-ai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147660879272:android:b3fde6faa4249f156b999d",
+        "android_client_info": {
+          "package_name": "com.example.currencyguard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAky-B0gq0zRJrjSVzrVSYkwrC5BPlOZN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

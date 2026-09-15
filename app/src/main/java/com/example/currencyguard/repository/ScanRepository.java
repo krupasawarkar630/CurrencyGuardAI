@@ -124,4 +124,12 @@ public class ScanRepository {
             }
         });
     }
+
+    public LiveData<List<ScanResult>> searchWallet(String query) {
+        return scanResultDao.searchWallet(query);
+    }
+
+    public LiveData<List<ScanResult>> getScansByRiskLevel(String riskLevel) {
+        return scanResultDao.getScansByRiskLevel(riskLevel);
+    }
 }

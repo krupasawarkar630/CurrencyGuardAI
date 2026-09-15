@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand & Primary Colors -->
-    <color name="primary">#1976D2</color>
-    <color name="primary_dark">#0D47A1</color>
-    <color name="primary_light">#E3F2FD</color>
-    <color name="primary_container">#D0E4FF</color>
-    <color name="on_primary_container">#001D36</color>
+    <!-- Brand & Primary Colors (Modern Swiss FinTech Jade & Emerald) -->
+    <color name="primary">#00A86B</color>
+    <color name="primary_dark">#008A56</color>
+    <color name="primary_light">#D1FAE5</color>
+    <color name="primary_container">#E6F8F0</color>
+    <color name="on_primary_container">#006B42</color>
 
     <!-- Status Colors -->
-    <color name="status_genuine">#00C853</color>
-    <color name="status_genuine_container">#E8F5E9</color>
-    <color name="status_suspicious">#FFB300</color>
-    <color name="status_suspicious_container">#FFF8E1</color>
-    <color name="status_fake">#F44336</color>
-    <color name="status_fake_container">#FFEBEE</color>
-    <color name="status_unverified">#78909C</color>
-    <color name="status_unverified_container">#ECEFF1</color>
+    <color name="status_genuine">#00A86B</color>
+    <color name="status_genuine_container">#E6F8F0</color>
+    <color name="status_suspicious">#F59E0B</color>
+    <color name="status_suspicious_container">#FEF3C7</color>
+    <color name="status_fake">#EF4444</color>
+    <color name="status_fake_container">#FEE2E2</color>
+    <color name="status_unverified">#64748B</color>
+    <color name="status_unverified_container">#F1F5F9</color>
 
     <!-- Heatmap Visualization Colors -->
-    <color name="heatmap_green">#4CAF50</color>
-    <color name="heatmap_yellow">#FFC107</color>
-    <color name="heatmap_red">#F44336</color>
+    <color name="heatmap_green">#00A86B</color>
+    <color name="heatmap_yellow">#F59E0B</color>
+    <color name="heatmap_red">#EF4444</color>
 
-    <!-- Neutrals & Surfaces (Material 3) -->
-    <color name="background">#FAFAFA</color>
+    <!-- Crisp Light FinTech Neutrals & Surfaces -->
+    <color name="background">#F6F8FC</color>
     <color name="surface">#FFFFFF</color>
-    <color name="surface_variant">#F5F5F5</color>
+    <color name="surface_variant">#EEF2F8</color>
     <color name="surface_card">#FFFFFF</color>
-    <color name="border_light">#E0E0E0</color>
+    <color name="border_light">#E2E8F0</color>
+    <color name="border_glow">#00A86B</color>
 
-    <!-- Text Colors -->
-    <color name="text_primary">#212121</color>
-    <color name="text_secondary">#757575</color>
-    <color name="text_tertiary">#9E9E9E</color>
+    <!-- Typography Text Colors (High Contrast Luxury Navy) -->
+    <color name="text_primary">#0A1128</color>
+    <color name="text_secondary">#475569</color>
+    <color name="text_tertiary">#94A3B8</color>
     <color name="text_on_primary">#FFFFFF</color>
 
-    <!-- Accent & Highlights -->
-    <color name="accent_blue">#0288D1</color>
-    <color name="accent_purple">#7E57C2</color>
-    <color name="scanner_overlay">#80000000</color>
-    <color name="scanner_reticle">#00E5FF</color>
+    <!-- Vibrant Accents -->
+    <color name="accent_blue">#0284C7</color>
+    <color name="accent_purple">#7C3AED</color>
+    <color name="accent_amber">#F59E0B</color>
+    <color name="whatsapp_green">#25D366</color>
+    <color name="scanner_overlay">#800A1128</color>
+    <color name="scanner_reticle">#00A86B</color>
 
     <!-- Standard Basics -->
     <color name="black">#FF000000</color>

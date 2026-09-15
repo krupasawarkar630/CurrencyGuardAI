@@ -33,10 +33,18 @@ public class ScanResult {
     private String uncertaintyReasonsJson;
     private boolean isSynced;
 
+    // Smart Wallet & Risk Fields
+    private String serialNumber = "Unclear";
+    private int riskScore = 15;
+    private String riskLevel = "LOW_RISK";
+    private String verificationId = "CG-2026-0000";
+    private boolean isDualSided = false;
+
     public ScanResult() {
         this.timestamp = System.currentTimeMillis();
         this.currency = "INR";
         this.isSynced = false;
+        this.verificationId = "CG-" + (100000 + (int)(Math.random() * 900000));
     }
 
     public long getId() { return id; }
@@ -91,4 +99,19 @@ public class ScanResult {
 
     public boolean isSynced() { return isSynced; }
     public void setSynced(boolean synced) { isSynced = synced; }
+
+    public String getSerialNumber() { return serialNumber; }
+    public void setSerialNumber(String serialNumber) { this.serialNumber = serialNumber; }
+
+    public int getRiskScore() { return riskScore; }
+    public void setRiskScore(int riskScore) { this.riskScore = riskScore; }
+
+    public String getRiskLevel() { return riskLevel; }
+    public void setRiskLevel(String riskLevel) { this.riskLevel = riskLevel; }
+
+    public String getVerificationId() { return verificationId; }
+    public void setVerificationId(String verificationId) { this.verificationId = verificationId; }
+
+    public boolean isDualSided() { return isDualSided; }
+    public void setDualSided(boolean dualSided) { isDualSided = dualSided; }
 }

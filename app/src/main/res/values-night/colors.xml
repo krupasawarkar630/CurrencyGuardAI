@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Dark Mode Brand Colors -->
-    <color name="primary">#90CAF9</color>
-    <color name="primary_dark">#42A5F5</color>
-    <color name="primary_light">#1E293B</color>
-    <color name="primary_container">#1565C0</color>
-    <color name="on_primary_container">#E3F2FD</color>
+    <!-- Brand & Primary Colors (Cyber Neon Emerald FinTech) -->
+    <color name="primary">#00E676</color>
+    <color name="primary_dark">#00C853</color>
+    <color name="primary_light">#69F0AE</color>
+    <color name="primary_container">#063D24</color>
+    <color name="on_primary_container">#B9F6CA</color>
 
-    <!-- Status Colors in Dark Mode -->
-    <color name="status_genuine">#69F0AE</color>
-    <color name="status_genuine_container">#1B5E20</color>
-    <color name="status_suspicious">#FFD54F</color>
-    <color name="status_suspicious_container">#5D4037</color>
+    <!-- Status Colors (High-Voltage Neon Verifications) -->
+    <color name="status_genuine">#00E676</color>
+    <color name="status_genuine_container">#063D24</color>
+    <color name="status_suspicious">#FBBF24</color>
+    <color name="status_suspicious_container">#78350F</color>
     <color name="status_fake">#FF5252</color>
-    <color name="status_fake_container">#5C1D1D</color>
-    <color name="status_unverified">#B0BEC5</color>
-    <color name="status_unverified_container">#263238</color>
+    <color name="status_fake_container">#7F1D1D</color>
+    <color name="status_unverified">#64748B</color>
+    <color name="status_unverified_container">#1E293B</color>
 
     <!-- Heatmap Visualization Colors -->
-    <color name="heatmap_green">#69F0AE</color>
-    <color name="heatmap_yellow">#FFD54F</color>
+    <color name="heatmap_green">#00E676</color>
+    <color name="heatmap_yellow">#FBBF24</color>
     <color name="heatmap_red">#FF5252</color>
 
-    <!-- Dark Neutrals & Surfaces -->
-    <color name="background">#121212</color>
-    <color name="surface">#1E1E1E</color>
-    <color name="surface_variant">#282828</color>
-    <color name="surface_card">#242424</color>
-    <color name="border_light">#383838</color>
+    <!-- Luxury Deep Obsidian Space & High-Contrast Elevated Surfaces -->
+    <color name="background">#070A12</color>
+    <color name="surface">#0E1526</color>
+    <color name="surface_variant">#152038</color>
+    <color name="surface_card">#111A2E</color>
+    <color name="border_light">#1F2D4A</color>
+    <color name="border_glow">#00E676</color>
 
-    <!-- Dark Mode Text Colors -->
-    <color name="text_primary">#F5F5F5</color>
-    <color name="text_secondary">#B0B0B0</color>
-    <color name="text_tertiary">#757575</color>
-    <color name="text_on_primary">#121212</color>
+    <!-- Typography Text Colors -->
+    <color name="text_primary">#F8FAFC</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_tertiary">#64748B</color>
+    <color name="text_on_primary">#032212</color>
 
-    <!-- Accent & Highlights -->
-    <color name="accent_blue">#40C4FF</color>
-    <color name="accent_purple">#B388FF</color>
-    <color name="scanner_overlay">#99000000</color>
-    <color name="scanner_reticle">#00E5FF</color>
+    <!-- Vibrant Accents & Holographic Gradients -->
+    <color name="accent_blue">#00F0FF</color>
+    <color name="accent_purple">#A78BFA</color>
+    <color name="accent_amber">#FBBF24</color>
+    <color name="whatsapp_green">#25D366</color>
+    <color name="scanner_overlay">#D9070A12</color>
+    <color name="scanner_reticle">#00E676</color>
 
     <!-- Standard Basics -->
     <color name="black">#FF000000</color>

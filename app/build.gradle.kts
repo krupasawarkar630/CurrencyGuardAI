@@ -3,6 +3,11 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+// Apply Google Services plugin automatically if google-services.json is present
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+}
+
 android {
     namespace = "com.example.currencyguard"
     compileSdk = 36

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="36dp">
 
-        <!-- Top Bar -->
+        <!-- 1. TOP HEADER BAR -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,54 +24,210 @@
 
             <ImageView
                 android:id="@+id/btn_back_result"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_doubt" />
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_badge_genuine"
+                android:backgroundTint="#151F32"
+                android:padding="8dp"
+                android:src="@drawable/ic_doubt"
+                app:tint="@color/text_primary" />
 
-            <TextView
-                android:id="@+id/tv_result_header_title"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="14dp"
                 android:layout_weight="1"
-                android:text="₹500 Indian Rupee"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_result_header_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹500 INR"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_result_verification_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="ID: CG-2026-X8910"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_quick_pdf"
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PDF"
-                android:textSize="12sp" />
+                android:layout_height="40dp"
+                android:text="📄 PDF"
+                android:textAllCaps="false"
+                android:textColor="#38BDF8"
+                android:textSize="12sp"
+                app:cornerRadius="10dp" />
         </LinearLayout>
 
-        <!-- Image & Heatmap Stack Card -->
-        <com.google.android.material.card.MaterialCardView
-            style="@style/CardStyle"
+        <!-- ============================================== -->
+        <!-- 2. 3D FORENSIC MODEL INSPECTOR CANVAS           -->
+        <!-- ============================================== -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_neon_status_pill"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp">
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:background="@drawable/bg_badge_genuine"
+                    android:backgroundTint="#10B981" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:letterSpacing="0.06"
+                    android:text="3D FORENSIC MODEL"
+                    android:textColor="#10B981"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="Interactive 3D Simulation"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- 3D Layer Mode Switcher Tabs -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_mode_3d_tilt"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="6dp"
+                    android:text="🌐 3D Tilt View"
+                    android:textAllCaps="false"
+                    android:textSize="11sp"
+                    app:cornerRadius="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_mode_uv"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="6dp"
+                    android:text="🟣 UV Light Simulator"
+                    android:textAllCaps="false"
+                    android:textColor="#A855F7"
+                    android:textSize="11sp"
+                    app:cornerRadius="8dp"
+                    app:strokeColor="#A855F7" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_toggle_heatmap"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="6dp"
+                    android:text="⚡ AI Heatmap"
+                    android:textAllCaps="false"
+                    android:textColor="#10B981"
+                    android:textSize="11sp"
+                    app:cornerRadius="8dp"
+                    app:strokeColor="#10B981" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_3d_flip"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="🔄 3D Flip"
+                    android:textAllCaps="false"
+                    android:textColor="#38BDF8"
+                    android:textSize="11sp"
+                    app:cornerRadius="8dp"
+                    app:strokeColor="#38BDF8" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- 3D Interactive Card Showcase -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_3d_note_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="@color/transparent"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="8dp"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_3d_card"
                 android:orientation="vertical"
                 android:padding="12dp">
 
+                <!-- Banknote Frame with 3D Depth -->
                 <FrameLayout
+                    android:id="@+id/frame_3d_banknote"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp">
+                    android:layout_height="210dp">
 
+                    <!-- Banknote Image -->
                     <ImageView
                         android:id="@+id/iv_scanned_note"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="#0A0E1A"
                         android:scaleType="centerCrop"
                         android:src="@drawable/bg_reticle" />
+
+                    <!-- UV Backlight Spectrum Simulation Overlay -->
+                    <View
+                        android:id="@+id/view_uv_overlay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_uv_overlay"
+                        android:visibility="gone" />
+
+                    <!-- UV Phosphor Glowing Thread Marker -->
+                    <View
+                        android:id="@+id/view_uv_glowing_thread"
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="85dp"
+                        android:background="#9900FF66"
+                        android:visibility="gone" />
 
                     <!-- Custom Grad-CAM Heatmap Overlay -->
                     <com.example.currencyguard.ui.HeatmapOverlayView
@@ -75,36 +235,91 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="gone" />
+
+                    <!-- 3D Hotspot 1: Watermark Window (Right side) -->
+                    <TextView
+                        android:id="@+id/chip_hotspot_watermark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/bg_hotspot_pill"
+                        android:elevation="6dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:text="🟢 3D Watermark"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <!-- 3D Hotspot 2: Metallic Security Thread (Center-left) -->
+                    <TextView
+                        android:id="@+id/chip_hotspot_thread"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="65dp"
+                        android:background="@drawable/bg_hotspot_pill"
+                        android:elevation="6dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:text="🟢 Color-Shift Thread"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <!-- 3D Hotspot 3: Microlettering (Bottom-left) -->
+                    <TextView
+                        android:id="@+id/chip_hotspot_micro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/bg_hotspot_pill"
+                        android:elevation="6dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:text="🟢 Microtext"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
                 </FrameLayout>
 
-                <!-- Heatmap Toggle Button -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_toggle_heatmap"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
+                <!-- Touch gesture instruction bar -->
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Show AI Attention Heatmap"
-                    android:textSize="12sp" />
+                    android:gravity="center"
+                    android:text="👆 Drag finger across banknote to tilt in 3D perspective"
+                    android:textColor="#94A3B8"
+                    android:textSize="11sp" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- PRIMARY HERO REAL VS FAKE VERDICT CARD -->
+        <!-- ============================================== -->
+        <!-- 3. INSTANT CLEAN VERDICT HERO CARD             -->
+        <!-- ============================================== -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_status_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/status_genuine_container"
-            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="2dp"
             app:strokeColor="@color/status_genuine"
-            app:strokeWidth="2dp">
+            app:strokeWidth="1.5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="18dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -114,9 +329,127 @@
 
                     <ImageView
                         android:id="@+id/iv_verdict_icon"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_badge_genuine"
+                        android:padding="9dp"
                         android:src="@drawable/ic_security" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_status_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LOW RISK • GENUINE"
+                            android:textColor="@color/status_genuine"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_verdict_summary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="All optical security features match central bank specifications."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_risk_score_display"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="18 / 100"
+                            android:textColor="@color/status_genuine"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_overall_confidence"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Conf: 82%"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_sides_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="✓ Dual-Sided Verification Complete"
+                    android:textColor="@color/primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Scan Back Side Action (If single side) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_scan_back_side"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#10B981"
+            android:text="📷 Scan Reverse Side (Dual-Side Verification)"
+            android:textAllCaps="false"
+            android:textColor="#05201A"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:cornerRadius="12dp" />
+
+        <!-- ============================================== -->
+        <!-- 4. 3D SECURITY FEATURE VISUAL BAR CHART        -->
+        <!-- ============================================== -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_security_barchart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/border_light"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Bar Chart Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/bg_badge_genuine"
+                        android:backgroundTint="#0E2338"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_chart"
+                        app:tint="#00F0FF" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -126,445 +459,211 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tv_status_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="REAL CURRENCY"
-                            android:textColor="@color/status_genuine"
-                            android:textSize="26sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_verdict_summary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Authentic Banknote Screening Passed"
+                            android:letterSpacing="0.04"
+                            android:text="3D SECURITY FEATURE BREAKDOWN"
                             android:textColor="@color/text_primary"
                             android:textSize="13sp"
                             android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Real-time multi-spectral &amp; biometric analysis"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_overall_confidence"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="87%"
-                        android:textColor="@color/status_genuine"
-                        android:textSize="28sp"
+                        android:background="@drawable/bg_neon_status_pill"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="3dp"
+                        android:text="3D HUD"
+                        android:textColor="#00F0FF"
+                        android:textSize="10sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_sides_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Front AI: 89% | Back AI: 86% (Combined: 88%)"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@color/border_light" />
 
-        <!-- AI VOICE ASSISTANT VERDICT CARD -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_ai_voice"
-            style="@style/CardStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:strokeColor="@color/primary"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="14dp">
-
+                <!-- Bar 1: Security Thread -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/iv_voice_icon"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_volume_up"
-                        app:tint="@color/primary" />
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:text="🛡️ Windowed Security Thread"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="AI Voice Assistant"
-                            android:textColor="@color/text_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_voice_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tap to listen to spoken AI screening analysis"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_voice_verdict"
-                        style="@style/Widget.Material3.Button"
+                    <TextView
+                        android:id="@+id/tv_bar_thread_val"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Speak Verdict"
-                        android:textSize="12sp"
-                        app:icon="@drawable/ic_volume_up"
-                        app:iconSize="16dp" />
+                        android:text="100% • PASS"
+                        android:textColor="@color/status_genuine"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/pb_bar_thread"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="14dp"
+                    android:max="100"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/progress_bar_3d_gradient" />
+
+                <!-- Bar 2: Mahatma Gandhi Watermark -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="💧 Mahatma Gandhi Watermark"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_bar_watermark_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="98% • PASS"
+                        android:textColor="@color/status_genuine"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/pb_bar_watermark"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="14dp"
+                    android:max="100"
+                    android:progress="98"
+                    android:progressDrawable="@drawable/progress_bar_3d_gradient" />
+
+                <!-- Bar 3: Cotton Substrate & Fibres -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="📜 Cotton Substrate &amp; Fibres"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_bar_substrate_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="95% • PASS"
+                        android:textColor="@color/status_genuine"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/pb_bar_substrate"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="14dp"
+                    android:max="100"
+                    android:progress="95"
+                    android:progressDrawable="@drawable/progress_bar_3d_gradient" />
+
+                <!-- Bar 4: Dimensional Alignment & Layout -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="📐 Layout &amp; Intaglio Printing"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_bar_layout_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100% • PASS"
+                        android:textColor="@color/status_genuine"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/pb_bar_layout"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:max="100"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/progress_bar_3d_gradient" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- REAL VS FAKE FEATURE-BY-FEATURE VERIFICATION CHECKLIST -->
+        <!-- ============================================== -->
+        <!-- 5. OFFICIAL FORENSIC PDF REPORT ACTION CARD    -->
+        <!-- ============================================== -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_feature_checklist"
-            style="@style/CardStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Real vs Fake Security Feature Audit"
-                    android:textColor="@color/text_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Individual verification of authentic banknote characteristics"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginVertical="10dp"
-                    android:background="@color/border_light" />
-
-                <!-- Security Thread Check -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Embedded Security Thread"
-                        android:textColor="@color/text_primary"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_check_thread"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_reticle"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="3dp"
-                        android:text="REAL ✓"
-                        android:textColor="@color/status_genuine"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Watermark Check -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Multi-tonal Watermark Window"
-                        android:textColor="@color/text_primary"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_check_watermark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_reticle"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="3dp"
-                        android:text="REAL ✓"
-                        android:textColor="@color/status_genuine"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Substrate Texture Check -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Paper Substrate &amp; Texture"
-                        android:textColor="@color/text_primary"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_check_substrate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_reticle"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="3dp"
-                        android:text="REAL ✓"
-                        android:textColor="@color/status_genuine"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Denomination Print Check -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Denomination Print &amp; Geometry"
-                        android:textColor="@color/text_primary"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tv_check_alignment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_reticle"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="3dp"
-                        android:text="REAL ✓"
-                        android:textColor="@color/status_genuine"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- UNIQUE FEATURE 1: AI DOUBT METER -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_doubt_meter"
+            android:id="@+id/card_pdf_download_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/status_suspicious_container"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="@color/status_suspicious"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:strokeColor="#0284C7"
             app:strokeWidth="1.5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_doubt" />
-
-                    <TextView
-                        android:id="@+id/tv_doubt_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="⚠️ AI Doubt Meter — Uncertainty Analysis"
-                        android:textColor="@color/text_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_doubt_reasons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:lineSpacingExtra="3dp"
-                    android:text="• Security thread region unclear (45% confidence)\n• High anomaly score (47/100)\n• Image quality below ideal threshold (68%)"
-                    android:textColor="@color/text_primary"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_doubt_recommendation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Recommendation: &quot;Retake under better lighting with note flat on surface.&quot;"
-                    android:textColor="@color/status_suspicious"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- UNIQUE FEATURE 2: CONFIDENCE TIMELINE CHART -->
-        <com.google.android.material.card.MaterialCardView
-            style="@style/CardStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Scan Consistency Timeline"
-                    android:textColor="@color/text_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Prediction stability across multiple scans of this note"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11sp" />
-
-                <!-- MPAndroidChart LineChart -->
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/timeline_line_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_marginTop="8dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_consistency_score"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="AI Consistency Score: 92%"
-                        android:textColor="@color/text_primary"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_volatility_score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Volatility: ±2.1% (Low)"
-                        android:textColor="@color/status_genuine"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_timeline_interpretation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Interpretation: AI predictions are stable and highly reliable across scans."
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11sp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Contribution Breakdown Card -->
-        <com.google.android.material.card.MaterialCardView
-            style="@style/CardStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="How AI Decided (Contribution Breakdown)"
-                    android:textColor="@color/text_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_breakdown_points"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:lineSpacingExtra="4dp"
-                    android:text="• Visual Similarity:       +32 points\n• Security Features:      +27 points\n• OCR Consistency:        +15 points\n• Geometry &amp; Proportions:  +9 points\n• Image Quality:          +4 points\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nFinal Score:              87 / 100"
-                    android:textColor="@color/text_primary"
-                    android:textSize="12sp"
-                    android:typeface="monospace" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Gemini AI Explanation Card -->
-        <com.google.android.material.card.MaterialCardView
-            style="@style/CardStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="18dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -573,208 +672,277 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="AI Natural Language Explanation"
-                        android:textColor="@color/text_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/badge_ai_source"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_doubt_card"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="2dp"
-                        android:text="🔒 On-Device"
-                        android:textColor="@color/black"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_ai_explanation_body"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:lineSpacingExtra="2dp"
-                    android:text="The AI detected strong consistency in the note's overall layout and geometry. Watermark and security thread features align with expected parameters. OCR confirmed denomination as 500."
-                    android:textColor="@color/text_primary"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Deep Multimodal AI Vision Audit Card -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_gemini_vision"
-            style="@style/CardStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:strokeColor="@color/primary"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_sparkle"
-                        app:tint="@color/primary" />
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_badge_genuine"
+                        android:backgroundTint="#0C243B"
+                        android:gravity="center"
+                        android:text="📄"
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="12dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Deep AI Vision Forensic Audit"
+                            android:text="Official Forensic PDF Report"
                             android:textColor="@color/text_primary"
-                            android:textSize="14sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tv_vision_model_badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Multimodal Neural Image Forensics"
+                            android:layout_marginTop="2dp"
+                            android:text="Detailed specs, microscopic audits &amp; legal passport"
                             android:textColor="@color/text_secondary"
                             android:textSize="11sp" />
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_neon_status_pill"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="3dp"
+                        android:text="A4 AUDIT"
+                        android:textColor="#38BDF8"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Runs direct neural image inspection across security thread luminescence, watermark window density, and microprinting."
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="2dp"
+                    android:text="All microscopic forensic metrics, central bank specifications, uncertainty reasons, and official validation stamps are formatted in a certified PDF."
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_run_vision_audit"
-                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:id="@+id/btn_pdf_download_banner"
+                    style="@style/Widget.Material3.Button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Run Deep AI Vision Audit"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="14dp"
+                    android:backgroundTint="#0284C7"
+                    android:text="📄 Download / View Official PDF Report"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
                     android:textSize="13sp"
-                    app:icon="@drawable/ic_sparkle"
-                    app:iconSize="18dp" />
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
 
-                <ProgressBar
-                    android:id="@+id/progress_vision_audit"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:indeterminate="true"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tv_vision_audit_result"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_reticle"
-                    android:lineSpacingExtra="3dp"
-                    android:padding="12dp"
-                    android:textColor="@color/text_primary"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_speak_vision_report"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="🔊 Speak AI Vision Report"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Action Buttons -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_convert_result"
-            style="@style/Widget.Material3.Button.TonalButton"
+        <!-- ============================================== -->
+        <!-- 6. CLEAN ESSENTIAL ACTION BUTTONS              -->
+        <!-- ============================================== -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:text="💱 Convert to USD &amp; Global Currencies"
-            android:textColor="@color/primary"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:cornerRadius="12dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_share_result"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_voice_verdict"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#10B981"
+                    android:text="🔊 Speak Verdict"
+                    android:textAllCaps="false"
+                    android:textColor="#05201A"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_convert_result"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:text="💱 Currency Converter"
+                    android:textAllCaps="false"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_save_wallet"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:text="✓ Save in Wallet"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    app:cornerRadius="10dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_share_result"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginHorizontal="3dp"
+                    android:layout_weight="1"
+                    android:text="Share Audit"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    app:cornerRadius="10dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_scan_another"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:text="🔄 Re-scan"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    app:cornerRadius="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ============================================== -->
+        <!-- HIDDEN CONTAINER FOR BACKWARD COMPATIBILITY    -->
+        <!-- (PREVENTS JAVA NULL POINTER EXCEPTIONS)       -->
+        <!-- ============================================== -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:text="📤 Share Screening &amp; App"
-            android:textColor="@color/text_primary"
-            android:textSize="14sp"
-            app:cornerRadius="12dp" />
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_export_pdf"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/primary"
-            android:text="@string/export_pdf_btn"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:cornerRadius="12dp" />
+            <TextView android:id="@+id/tv_risk_bullet_1" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/tv_risk_bullet_2" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/tv_risk_bullet_3" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/tv_voice_status" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <ImageView android:id="@+id/iv_voice_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_ask_currencyguard"
-            style="@style/Widget.Material3.Button.TonalButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/ask_ai_btn"
-            android:textSize="14sp"
-            app:cornerRadius="12dp" />
+            <!-- Checklist views -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/card_feature_checklist" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <LinearLayout android:id="@+id/header_security_audit" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <TextView android:id="@+id/tv_toggle_security_audit" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/layout_security_audit_body" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <TextView android:id="@+id/tv_check_thread" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tv_detail_thread" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tv_check_watermark" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tv_detail_watermark" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tv_check_substrate" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tv_detail_substrate" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tv_check_alignment" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tv_detail_alignment" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_scan_another"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/retake_btn"
-            android:textColor="@color/text_primary"
-            android:textSize="14sp"
-            app:cornerRadius="12dp" />
+            <!-- Breakdown views -->
+            <LinearLayout android:id="@+id/header_breakdown" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:id="@+id/tv_toggle_breakdown" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/layout_breakdown_body" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ProgressBar android:id="@+id/pb_visual" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_pt_visual" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <ProgressBar android:id="@+id/pb_security" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_pt_security" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <ProgressBar android:id="@+id/pb_ocr" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_pt_ocr" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <ProgressBar android:id="@+id/pb_geometry" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_pt_geometry" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <ProgressBar android:id="@+id/pb_quality" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_pt_quality" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_breakdown_points" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
 
-        <!-- Footer Disclaimer -->
+            <!-- Explanation views -->
+            <LinearLayout android:id="@+id/header_explanation" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:id="@+id/badge_ai_source" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_toggle_explanation" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/layout_explanation_body" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:id="@+id/tv_ai_explanation_body" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <!-- Doubt meter views -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/card_doubt_meter" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:id="@+id/tv_doubt_status_badge" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_doubt_reasons" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_doubt_recommendation" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Multimodal Vision Audit views -->
+            <TextView android:id="@+id/tv_vision_model_badge" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btn_run_vision_audit" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <ProgressBar android:id="@+id/progress_vision_audit" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/tv_vision_audit_result" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btn_speak_vision_report" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+            <!-- PDF Export Button -->
+            <com.google.android.material.button.MaterialButton android:id="@+id/btn_export_pdf" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+            <!-- Deprecated meters & chat views preserved for safe binding -->
+            <TextView android:id="@+id/tv_gauge_thread" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/tv_gauge_watermark" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/tv_gauge_substrate" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/tv_gauge_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btn_ask_currencyguard" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+            <!-- Timeline LineChart Compatibility -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/card_stability_graph" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:id="@+id/tv_consistency_score" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_volatility_score" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <com.github.mikephil.charting.charts.LineChart android:id="@+id/timeline_line_chart" android:layout_width="10dp" android:layout_height="10dp" />
+                <TextView android:id="@+id/tv_timeline_interpretation" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Inline Copilot Compatibility -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/card_ai_copilot_chat" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:id="@+id/tv_copilot_model_badge" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/chip_ask_watermark" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/chip_ask_thread" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/chip_ask_risk" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/chip_ask_tips" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_chat_sender_label" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <ProgressBar android:id="@+id/progress_quick_chat" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <ImageView android:id="@+id/btn_speak_chat_reply" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:id="@+id/tv_quick_chat_reply" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <EditText android:id="@+id/et_quick_chat" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <ImageView android:id="@+id/btn_send_quick_chat" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- Mandatory Screening Disclaimer -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="22dp"
             android:gravity="center"
-            android:text="@string/general_disclaimer"
+            android:text="CurrencyGuard AI 3D Forensic Simulation. Not a legal certificate of monetary authenticity."
             android:textColor="@color/text_tertiary"
             android:textSize="10sp" />
 

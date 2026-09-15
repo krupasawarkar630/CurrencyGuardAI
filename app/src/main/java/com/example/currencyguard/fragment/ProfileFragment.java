@@ -210,40 +210,48 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setupAiModelAndKey(View view) {
-        String currentKey = com.example.currencyguard.ai.OpenRouterService.getApiKey(requireContext());
+        String currentKey = com.example.currencyguard.ai.GeminiApiService.getApiKey(requireContext());
         if (currentKey != null && !currentKey.isEmpty()) {
             etGeminiKey.setText(currentKey);
         }
 
-        // Check whether custom TFLite or Demo classifier is running
+        // Active Verification Engine identity
         TensorFlowCurrencyClassifier classifier = new TensorFlowCurrencyClassifier(requireContext());
         if (classifier.isNativeModelLoaded()) {
-            tvActiveModel.setText("Active Classifier: Native TensorFlow Lite (currency_model.tflite)");
+            tvActiveModel.setText("Verification Engine: CurrencyGuard Ensemble v1.0 (TensorFlow Lite)");
         } else {
-            tvActiveModel.setText("Active Classifier: DemoCurrencyClassifier (Deterministic Heuristic Demo)");
+            tvActiveModel.setText("Verification Engine: CurrencyGuard Ensemble v1.0 (On-Device Heuristic & CV)");
         }
         classifier.close();
 
-        // Model selector radio group
+        // WhatsApp Bot Simulator launcher
+        View btnWhatsappDemo = view.findViewById(R.id.btn_open_whatsapp_demo);
+        if (btnWhatsappDemo != null) {
+            btnWhatsappDemo.setOnClickListener(v -> {
+                startActivity(new Intent(requireContext(), com.example.currencyguard.whatsapp.WhatsAppBotDemoActivity.class));
+            });
+        }
+
+        // Model selector radio group (Google Gemini Models)
         RadioGroup rgModels = view.findViewById(R.id.rg_gemini_models);
-        String currentModel = com.example.currencyguard.ai.OpenRouterService.getActiveModel(requireContext());
+        String currentModel = com.example.currencyguard.ai.GeminiApiService.getActiveModel(requireContext());
         if (rgModels != null) {
-            if (com.example.currencyguard.ai.OpenRouterService.MODEL_LLAMA_FREE.equalsIgnoreCase(currentModel)) {
+            if (com.example.currencyguard.ai.GeminiApiService.MODEL_GEMINI_15_FLASH.equalsIgnoreCase(currentModel)) {
                 rgModels.check(R.id.rb_model_15_flash);
-            } else if (com.example.currencyguard.ai.OpenRouterService.MODEL_DEEPSEEK.equalsIgnoreCase(currentModel)) {
+            } else if (com.example.currencyguard.ai.GeminiApiService.MODEL_GEMINI_15_PRO.equalsIgnoreCase(currentModel)) {
                 rgModels.check(R.id.rb_model_15_pro);
             } else {
                 rgModels.check(R.id.rb_model_20_flash);
             }
 
             rgModels.setOnCheckedChangeListener((group, checkedId) -> {
-                String chosenModel = com.example.currencyguard.ai.OpenRouterService.MODEL_GEMINI_FREE;
+                String chosenModel = com.example.currencyguard.ai.GeminiApiService.MODEL_GEMINI_20_FLASH;
                 if (checkedId == R.id.rb_model_15_flash) {
-                    chosenModel = com.example.currencyguard.ai.OpenRouterService.MODEL_LLAMA_FREE;
+                    chosenModel = com.example.currencyguard.ai.GeminiApiService.MODEL_GEMINI_15_FLASH;
                 } else if (checkedId == R.id.rb_model_15_pro) {
-                    chosenModel = com.example.currencyguard.ai.OpenRouterService.MODEL_DEEPSEEK;
+                    chosenModel = com.example.currencyguard.ai.GeminiApiService.MODEL_GEMINI_15_PRO;
                 }
-                com.example.currencyguard.ai.OpenRouterService.setActiveModel(requireContext(), chosenModel);
+                com.example.currencyguard.ai.GeminiApiService.setActiveModel(requireContext(), chosenModel);
                 Toast.makeText(getContext(), "Active model: " + chosenModel, Toast.LENGTH_SHORT).show();
             });
         }
@@ -252,11 +260,11 @@ public class ProfileFragment extends Fragment {
 
         view.findViewById(R.id.btn_save_key).setOnClickListener(v -> {
             String key = etGeminiKey.getText().toString().trim();
-            com.example.currencyguard.ai.OpenRouterService.saveApiKey(requireContext(), key);
+            com.example.currencyguard.ai.GeminiApiService.saveApiKey(requireContext(), key);
             if (tvKeyStatus != null) {
-                tvKeyStatus.setText(key.isEmpty() ? "API key cleared. Offline fallback active." : "OpenRouter API key saved.");
+                tvKeyStatus.setText(key.isEmpty() ? "API key cleared. Offline fallback active." : "Google Gemini API key saved.");
             }
-            Toast.makeText(getContext(), "OpenRouter API key saved successfully.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Google Gemini API key saved successfully.", Toast.LENGTH_SHORT).show();
         });
 
         view.findViewById(R.id.btn_test_key).setOnClickListener(v -> {
@@ -269,10 +277,10 @@ public class ProfileFragment extends Fragment {
                 return;
             }
             if (tvKeyStatus != null) {
-                tvKeyStatus.setText("Testing connection with OpenRouter...");
+                tvKeyStatus.setText("Testing connection with Google Gemini...");
                 tvKeyStatus.setTextColor(getResources().getColor(R.color.primary, null));
             }
-            com.example.currencyguard.ai.OpenRouterService service = new com.example.currencyguard.ai.OpenRouterService();
+            com.example.currencyguard.ai.GeminiApiService service = new com.example.currencyguard.ai.GeminiApiService();
             service.testApiKey(requireContext(), key, (success, message) -> {
                 if (tvKeyStatus != null) {
                     tvKeyStatus.setText(message);

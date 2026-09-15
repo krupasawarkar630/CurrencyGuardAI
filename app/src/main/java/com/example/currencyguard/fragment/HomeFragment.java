@@ -20,6 +20,7 @@ import com.example.currencyguard.R;
 import com.example.currencyguard.activity.AnalysisActivity;
 import com.example.currencyguard.activity.ChatAssistantActivity;
 import com.example.currencyguard.activity.HistoryDetailActivity;
+import com.example.currencyguard.activity.MainActivity;
 import com.example.currencyguard.activity.ScanActivity;
 import com.example.currencyguard.adapter.ScanHistoryAdapter;
 import com.example.currencyguard.model.ScanResult;
@@ -42,6 +43,7 @@ public class HomeFragment extends Fragment {
     private TextView tvGenuineCount;
     private TextView tvSuspiciousCount;
     private TextView tvEmptyHistory;
+    private TextView tvHomeWalletCount;
     private RecyclerView rvRecentScans;
 
     private final ActivityResultLauncher<String> galleryLauncher =
@@ -65,6 +67,7 @@ public class HomeFragment extends Fragment {
         tvGenuineCount = view.findViewById(R.id.tv_genuine_count);
         tvSuspiciousCount = view.findViewById(R.id.tv_suspicious_count);
         tvEmptyHistory = view.findViewById(R.id.tv_empty_history);
+        tvHomeWalletCount = view.findViewById(R.id.tv_home_wallet_count);
         rvRecentScans = view.findViewById(R.id.rv_recent_scans);
 
         view.findViewById(R.id.btn_scan_camera).setOnClickListener(v -> {
@@ -75,19 +78,52 @@ public class HomeFragment extends Fragment {
             galleryLauncher.launch("image/*");
         });
 
-        view.findViewById(R.id.btn_ask_ai_header).setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), ChatAssistantActivity.class));
-        });
 
-        view.findViewById(R.id.btn_share_app_header).setOnClickListener(v -> {
-            com.example.currencyguard.utils.ShareUtils.shareApp(requireContext());
-        });
 
-        view.findViewById(R.id.btn_open_converter).setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), com.example.currencyguard.activity.CurrencyConverterActivity.class);
-            intent.putExtra(com.example.currencyguard.activity.CurrencyConverterActivity.EXTRA_AMOUNT, 200.0);
-            startActivity(intent);
-        });
+        View btnConverter = view.findViewById(R.id.btn_open_converter);
+        if (btnConverter != null) {
+            btnConverter.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), com.example.currencyguard.activity.CurrencyConverterActivity.class);
+                intent.putExtra(com.example.currencyguard.activity.CurrencyConverterActivity.EXTRA_AMOUNT, 200.0);
+                startActivity(intent);
+            });
+        }
+
+        View cardWallet = view.findViewById(R.id.card_wallet_shortcut);
+        if (cardWallet != null) {
+            cardWallet.setOnClickListener(v -> {
+                if (getActivity() instanceof MainActivity) {
+                    com.google.android.material.bottomnavigation.BottomNavigationView bnv = getActivity().findViewById(R.id.bottom_navigation);
+                    if (bnv != null) {
+                        bnv.setSelectedItemId(R.id.nav_history);
+                    }
+                }
+            });
+        }
+
+        View cardWhatsapp = view.findViewById(R.id.card_home_whatsapp_banner);
+        if (cardWhatsapp != null) {
+            cardWhatsapp.setOnClickListener(v -> {
+                startActivity(new Intent(getActivity(), com.example.currencyguard.whatsapp.WhatsAppBotDemoActivity.class));
+            });
+        }
+
+        View cardCopilot = view.findViewById(R.id.card_home_copilot);
+        if (cardCopilot != null) {
+            cardCopilot.setOnClickListener(v -> {
+                startActivity(new Intent(getActivity(), ChatAssistantActivity.class));
+            });
+        }
+
+        TextView tvWelcome = view.findViewById(R.id.tv_home_welcome_title);
+        if (tvWelcome != null && getContext() != null) {
+            com.example.currencyguard.firebase.FirebaseAuthManager.UserProfile user =
+                    com.example.currencyguard.firebase.FirebaseAuthManager.getUserProfile(getContext());
+            if (user != null && user.getName() != null && !user.getName().isEmpty()) {
+                String firstName = user.getName().split(" ")[0];
+                tvWelcome.setText("Welcome, " + firstName + "! 👋");
+            }
+        }
 
         rvRecentScans.setLayoutManager(new LinearLayoutManager(getContext()));
         recentAdapter = new ScanHistoryAdapter(getContext(), scanResult -> {
@@ -110,7 +146,11 @@ public class HomeFragment extends Fragment {
 
     private void observeDatabase() {
         scanRepository.getTotalScanCount().observe(getViewLifecycleOwner(), count -> {
-            tvTotalScans.setText(String.valueOf(count != null ? count : 0));
+            int total = count != null ? count : 0;
+            tvTotalScans.setText(String.valueOf(total));
+            if (tvHomeWalletCount != null) {
+                tvHomeWalletCount.setText(total + (total == 1 ? " note saved in audit trail" : " notes saved in audit trail"));
+            }
         });
 
         scanRepository.getAverageConfidence().observe(getViewLifecycleOwner(), avg -> {
@@ -139,6 +179,9 @@ public class HomeFragment extends Fragment {
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     tvTotalScans.setText(String.valueOf(total));
+                    if (tvHomeWalletCount != null) {
+                        tvHomeWalletCount.setText(total + (total == 1 ? " note saved in audit trail" : " notes saved in audit trail"));
+                    }
                     if (avgConfidence > 0) {
                         tvAvgConfidence.setText((int) Math.round(avgConfidence) + "%");
                     } else {

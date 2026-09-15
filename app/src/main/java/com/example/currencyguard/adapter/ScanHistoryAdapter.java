@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * RecyclerView adapter for scan records in History and Home Recent Scans.
+ * RecyclerView adapter for Smart Note Wallet and Screening History records.
+ * Presents risk scores, confidence, serial numbers, and dual-side verification tags.
  */
 public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.ViewHolder> {
 
@@ -59,38 +60,55 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ScanResult item = items.get(position);
 
-        holder.tvDenom.setText(item.getDenomination() + " (" + item.getCurrency() + ")");
+        holder.tvDenom.setText(item.getDenomination() + " " + item.getCurrency());
 
-        String dateStr = new SimpleDateFormat("dd MMM yyyy • hh:mm a", Locale.US).format(new Date(item.getTimestamp()));
+        String dateStr = new SimpleDateFormat("dd MMM • hh:mm a", Locale.US).format(new Date(item.getTimestamp()));
         holder.tvDate.setText(dateStr);
 
-        holder.tvConfidence.setText((int) item.getConfidence() + "%");
+        // Serial Number
+        String serial = item.getSerialNumber();
+        if (serial != null && !serial.isEmpty() && !"Unclear".equalsIgnoreCase(serial)) {
+            holder.tvSerial.setText("Serial: " + serial);
+        } else {
+            holder.tvSerial.setText("Serial: Not Detected");
+        }
 
-        String status = item.getStatus() != null ? item.getStatus() : "LIKELY_GENUINE";
+        // Dual-Side vs Single-Side Tag
+        if (item.isDualSided() || (item.getBackImagePath() != null && !item.getBackImagePath().isEmpty())) {
+            holder.tvSidesTag.setText("Dual-Sided");
+            holder.tvSidesTag.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvSidesTag.setText("Single-Side");
+            holder.tvSidesTag.setVisibility(View.VISIBLE);
+        }
+
+        // Risk & Confidence Display
+        int risk = item.getRiskScore() > 0 ? item.getRiskScore() : (int) Math.max(5, Math.round(100.0 - item.getConfidence()));
+        holder.tvRiskScore.setText(risk + "/100");
+        holder.tvConfidence.setText("Conf: " + (int) item.getConfidence() + "%");
+
+        String status = item.getStatus() != null ? item.getStatus() : "LOW_RISK";
         if (status.contains("NOT_A_CURRENCY") || status.contains("NOT_CURRENCY")) {
             holder.tvStatusBadge.setText("🚫 NOT A CURRENCY");
             holder.tvStatusBadge.setTextColor(Color.parseColor("#D32F2F"));
-            holder.tvConfidence.setText("N/A");
-            holder.tvConfidence.setTextColor(Color.parseColor("#D32F2F"));
-        } else if (status.contains("GENUINE")) {
-            holder.tvStatusBadge.setText("🛡️ REAL (Genuine)");
+            holder.tvRiskScore.setText("N/A");
+            holder.tvRiskScore.setTextColor(Color.parseColor("#D32F2F"));
+            holder.tvConfidence.setText("Confidence: 0%");
+        } else if (status.contains("LOW_RISK") || status.contains("GENUINE") || risk < 30) {
+            holder.tvStatusBadge.setText("🟢 LOW RISK");
             holder.tvStatusBadge.setTextColor(Color.parseColor("#00C853"));
-            holder.tvConfidence.setTextColor(Color.parseColor("#00C853"));
-        } else if (status.contains("SUSPICIOUS")) {
-            holder.tvStatusBadge.setText("⚠️ SUSPICIOUS");
+            holder.tvRiskScore.setTextColor(Color.parseColor("#00C853"));
+        } else if (status.contains("SUSPICIOUS") || (risk >= 30 && risk < 70)) {
+            holder.tvStatusBadge.setText("🟡 SUSPICIOUS");
             holder.tvStatusBadge.setTextColor(Color.parseColor("#FFB300"));
-            holder.tvConfidence.setTextColor(Color.parseColor("#FFB300"));
-        } else if (status.contains("FAKE")) {
-            holder.tvStatusBadge.setText("🚫 FAKE (Counterfeit)");
-            holder.tvStatusBadge.setTextColor(Color.parseColor("#F44336"));
-            holder.tvConfidence.setTextColor(Color.parseColor("#F44336"));
+            holder.tvRiskScore.setTextColor(Color.parseColor("#FFB300"));
         } else {
-            holder.tvStatusBadge.setText("❓ UNVERIFIED");
-            holder.tvStatusBadge.setTextColor(Color.parseColor("#78909C"));
-            holder.tvConfidence.setTextColor(Color.parseColor("#78909C"));
+            holder.tvStatusBadge.setText("🔴 HIGH RISK");
+            holder.tvStatusBadge.setTextColor(Color.parseColor("#F44336"));
+            holder.tvRiskScore.setTextColor(Color.parseColor("#F44336"));
         }
 
-        // Load thumbnail if available
+        // Load thumbnail safely
         if (item.getFrontImagePath() != null) {
             Bitmap thumb = ImageUtils.loadAndCorrectOrientation(item.getFrontImagePath());
             if (thumb != null) {
@@ -115,16 +133,22 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView ivThumbnail;
         final TextView tvDenom;
+        final TextView tvSerial;
+        final TextView tvSidesTag;
         final TextView tvDate;
         final TextView tvStatusBadge;
+        final TextView tvRiskScore;
         final TextView tvConfidence;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivThumbnail = itemView.findViewById(R.id.iv_item_thumbnail);
             tvDenom = itemView.findViewById(R.id.tv_item_denomination);
+            tvSerial = itemView.findViewById(R.id.tv_item_serial);
+            tvSidesTag = itemView.findViewById(R.id.tv_item_sides_tag);
             tvDate = itemView.findViewById(R.id.tv_item_date);
             tvStatusBadge = itemView.findViewById(R.id.tv_item_status_badge);
+            tvRiskScore = itemView.findViewById(R.id.tv_item_risk_score);
             tvConfidence = itemView.findViewById(R.id.tv_item_confidence);
         }
     }
